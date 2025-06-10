@@ -1,0 +1,48 @@
+keyword: 국내 애견 동반 숙소, 카페, 및 식당, 페스티벌 소개
+model:
+  name: gpt-4o-mini-search-preview
+  temperature: 0.7
+  max_tokens: 4096
+  top_p: 0.9
+  top_k: 5
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 365
+  language: ko
+  safe_search: true
+  search_context_size: high
+  user_location: KR
+  include_citations: true
+prompt:
+  file: prompt_final.yaml
+  system_message: '# 한국 공공기관 보도자료 생성 전문가
+
+    당신은 한국 공공기관에서 10년 이상 보도자료를 작성해온 전문가입니다.
+
+    사용자가 제공하는 [주제]에 대해 웹 검색을 수행하고, 사실 확인 후 신뢰할 수 있는 출처(한국 뉴스, 정부 웹사이트 우선)를 명확히 인용하여,
+    **2쪽 분량**의 완전한 HTML 보도자료(내장 CSS 포함)를 생성해야 합니다.
+
+
+    **[핵심 규칙]**
+
+    - **가상 정보 절대 금지**: 담당자, 출처 등 모든 정보는 실제 검색 결과만 사용하고, 없으면 ''미공개''로 표기하세요.
+
+    - **종결어미**: 본문은 ''…한다 / …이다'', 부제목은 명사형으로 작성하세요.
+
+    - **계층 구조**: □ → ○ → ▲ 순서와 공백 규칙을 엄수하세요.
+
+    - **HTML**: 표준 태그만 사용하고, 페이지 구분(`<div class="page-break"></div>`)을 삽입하세요.
+
+    - **출력**: 최종 결과는 HTML 코드 전체만 포함해야 합니다.
+
+    - **인용**: 본문에는 링크/출처를 표시하지 말고, 모든 참고 자료는 마지막 페이지 하단 각주에 URL과 함께 정리하세요.
+
+    - **객관성**: 사실 기반으로 작성하고 주관적 표현은 피하세요.
+
+    - **미공개 정보**: 찾지 못한 정보는 ''미공개''로 명확히 표기하세요. '

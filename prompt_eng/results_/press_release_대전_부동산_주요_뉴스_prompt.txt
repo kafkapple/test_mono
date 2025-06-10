@@ -1,0 +1,245 @@
+====== 시스템 메시지 ======
+한글로 대답해주세요. 정보가 부족할 경우 웹 검색을 활용하세요. 한국에 관련된 최신 정보를 검색하세요.
+
+====== 사용자 메시지 ======
+<prompt>
+  <task>
+    입력된 키워드에 대한 보도자료를 HTML 형식으로 작성해주세요. 웹에서 관련 기사를 검색한 내용을 바탕으로 아래 형식에 맞게 보도자료를 생성해주세요.
+  </task>
+  
+  <structure>
+    <header>
+      <date_table>
+        <!-- 두 행으로 구성된 테이블, 가로로 긴 형태 -->
+        <!-- 반드시 table 태그 사용, 각 행은 tr, 각 열은 td -->
+        <row1>현재 날짜 표시 (예: "2025. 4. 23(수) 조간용") - 파란색 텍스트로 표시</row1>
+        <row2>보도 가능 시간 (예: "이 보도자료는 2025년 4월 23일 11:15부터 보도할 수 있습니다.")</row2>
+      </date_table>
+      
+      <document_type>
+        <!-- 반드시 우측 정렬된 "보도자료" 텍스트 -->
+        <format>24px 크기, 굵은 글씨체, 우측 정렬</format>
+        <!-- 하단에 가로로 긴 구분선 추가 -->
+      </document_type>
+      
+      <contact_info>
+        <!-- 담당부서 정보는 좌측에 일반 텍스트로만 표시, 박스나 표 사용 안 함 -->
+        <department_row>
+          <left>담당 부서: [웹 검색 결과에서 찾은 실제 부서명 - 명확히 확인된 정보만 표기, 불확실할 경우 "확인 필요"로 표시]</left>
+        </department_row>
+        
+        <!-- 담당자 정보 테이블 - 우측 배치 -->
+        <!-- 상단 헤더 행 없이 직접 실제 정보만 표시 -->
+        <contact_table>
+          <!-- 웹 검색 결과에서 찾은 확실한 담당자 정보만 사용, 확인되지 않은 정보는 "확인 필요"로 표시 -->
+          <data_rows>
+            <col>[검색된 실제 직책 - 없으면 "확인 필요"]</col>
+            <col>[검색된 실제 이름 - 없으면 "확인 필요"]</col>
+            <col>[검색된 실제 연락처 - 없으면 "확인 필요"]</col>
+          </data_rows>
+        </contact_table>
+        <!-- 하단에 가로로 긴 구분선 추가 -->
+      </contact_info>
+      
+      <photo_info>
+        <!-- 사진 정보 및 페이지 수 -->
+        <!-- 실제 보고서에 사진이 첨부되는지 여부에 따라 체크박스 설정 변경 -->
+        <format>
+          사진 있음 □ 사진 없음 ■ 쪽수: 2쪽
+        </format>
+        <!-- 반드시 2쪽 분량의 보고서 생성 -->
+        <!-- 하단에 가로로 긴 구분선 추가 -->
+      </photo_info>
+    </header>
+    
+    <main_content>
+      <main_summary_box>
+        <!-- 테두리가 있는 박스로 구성 (위아래 1px 실선 테두리), 좌측 정렬 -->
+        <main_title>
+          <!-- 25px 크기, 굵은 글씨체 -->
+          <!-- 보도자료답게 한 문장으로 자세하게 작성 (웹 검색 결과 기반) -->
+          [키워드 관련 상세한 주요 제목]
+        </main_title>
+        
+        <subtitles>
+          <!-- 각 항목은 '-' 불릿으로 시작 (정확히 1개만), 3-5개 내외로 작성 -->
+          <!-- 헤드라인체 사용: 종결어미 생략하고 명사형으로 처리 -->
+          <item>- [부제목 1 - 헤드라인체로 작성]</item>
+          <item>- [부제목 2 - 헤드라인체로 작성]</item>
+          <item>- [부제목 3 - 헤드라인체로 작성]</item>
+        </subtitles>
+      </main_summary_box>
+      
+      <!-- 한 줄 공백 후 바로 main_summary_box 내용에 대한 상세 설명 paragraphs 배치 -->
+      <paragraphs>
+        <!-- 1계층: □ 불릿으로 시작, 1-2문장의 상세한 내용 -->
+        <!-- 종결어미는 반드시 "한다", "이다" 사용 -->
+        <level_1>□ [main_summary_box 내용에 대한 상세 설명 1, 종결어미 "한다", "이다" 사용]</level_1>
+        
+        <!-- level_1 다음에 level_2가 오는 경우 공백 없이 바로 이어서 배치 -->
+        <level_2>○ [상세 설명에 대한 부연 내용, 종결어미 "한다", "이다" 사용]</level_2>
+        
+        <!-- detail은 level_2 문장에 이어서 바로 나열 -->
+        <detail>▴ [세부 항목 1] ▴ [세부 항목 2]</detail>
+        
+        <!-- level_1 다음에 level_1이 오는 경우에만 한 줄 공백 추가 -->
+        <level_1>□ [main_summary_box 내용에 대한 상세 설명 2, 종결어미 "한다", "이다" 사용]</level_1>
+      </paragraphs>
+      
+      <sections>
+        <!-- 섹션들은 좌측 정렬 -->
+        <!-- 첫 번째 섹션은 첫 페이지에 배치 -->
+        <section id="section1">
+          <section_title>
+            <!-- 16px 크기, 굵은 글씨체, 밑줄, 좌측 정렬 -->
+            <!-- 구체적이고, 상세한 내용 포함 -->
+            &lt;[상세한 섹션 제목 1]&gt;
+          </section_title>
+          
+          <paragraphs>
+            <!-- 1계층: □ 불릿으로 시작, 1-2문장의 상세한 내용 -->
+            <!-- 종결어미는 반드시 "한다", "이다" 사용 -->
+            <level_1>□ [상세한 내용 1-1, 종결어미 "한다", "이다" 사용]</level_1>
+            
+            <!-- level_1 다음에 level_2가 오는 경우 공백 없이 이어서 배치 -->
+            <level_2>○ [내용 1-1-1, 종결어미 "한다", "이다" 사용]</level_2>
+            
+            <!-- detail은 level_2 문장 내에 바로 이어서 나열 -->
+            <detail>▴ [세부 항목 1] ▴ [세부 항목 2]</detail>
+            
+            <!-- level_1 다음에 level_1이 오는 경우에만 한 줄 공백 추가 -->
+            <level_1>□ [상세한 내용 1-2, 종결어미 "한다", "이다" 사용]</level_1>
+          </paragraphs>
+        </section>
+        
+        <!-- 두 번째 섹션부터는 두 번째 페이지에 배치 (page-break-before 적용) -->
+        <section id="section2">
+          <section_title>
+            <!-- 큰 글씨의 밑줄과 함께 강조, <> 안에 상세한 제목 삽입, 좌측 정렬 -->
+            &lt;[상세한 섹션 제목 2]&gt;
+          </section_title>
+          
+          <paragraphs>
+            <!-- 1계층: □ 불릿으로 시작, 1-2문장의 상세한 내용 -->
+            <!-- 종결어미는 반드시 "한다", "이다" 사용 -->
+            <level_1>□ [상세한 내용 2-1, 종결어미 "한다", "이다" 사용]</level_1>
+            
+            <!-- 필요시 2계층 사용, 공백 없이 배치 -->
+            <level_2>○ [내용 2-1-1, 종결어미 "한다", "이다" 사용]</level_2>
+          </paragraphs>
+        </section>
+      </sections>
+    </main_content>
+    
+    <footer>
+      <!-- 각 페이지 하단 중앙에 해당 페이지 번호만 배치 -->
+      <!-- 1페이지에는 1만, 2페이지에는 2만 표시 -->
+      <page_number page="1">- 1 -</page_number> <!-- 1페이지 하단에만 -->
+      <page_number page="2">- 2 -</page_number> <!-- 2페이지 하단에만 -->
+      
+      <!-- 각주: 마지막 페이지에만, 좌측 정렬 -->
+      <references>
+        <title>참고 자료</title>
+        <list>
+          <!-- 웹에서 검색한 5개 내외의 주요 기사 출처 정확히 명시 (URL 포함) -->
+          <item>[참고 자료 1 - 정확한 출처 URL 포함]</item>
+          <item>[참고 자료 2 - 정확한 출처 URL 포함]</item>
+          <item>[참고 자료 3 - 정확한 출처 URL 포함]</item>
+        </list>
+      </references>
+    </footer>
+  </structure>
+  
+  <css_requirements>
+    <style>
+      - 본문에는 '맑은 고딕' 또는 'Malgun Gothic' 폰트 사용
+      - 줄 간격 1.6
+      - 페이지 여백 20px
+      - 표는 1px 실선 테두리 적용
+      - 요약 상자는 위아래로 1px 실선 테두리 적용
+      - 섹션 제목은 밑줄 적용
+      - 파란색 텍스트는 CSS의 blue 색상 사용
+      - 최대 너비 800px, 중앙 정렬
+      - "보도자료" 텍스트는 반드시 우측 정렬
+      - 담당부서 정보는 표 없이 좌측 텍스트로만 표시
+      - main_summary_box 및 section_title은 좌측 정렬
+      - references는 좌측 정렬
+      
+      <!-- 페이지 나누기 설정 (인쇄용) -->
+      - @page { size: A4; margin: 2cm; }
+      - @media print { body { width: 210mm; height: 297mm; margin: 0; } }
+      - #section2 { page-break-before: always; } /* 두 번째 섹션부터 새 페이지에 표시 */
+      - .page-1, .page-2 { position: relative; min-height: 297mm; }
+      - .page-1 .page-footer { position: absolute; bottom: 20px; width: 100%; text-align: center; }
+      - .page-2 .page-footer { position: absolute; bottom: 20px; width: 100%; text-align: center; }
+      - references { page-break-before: avoid; } /* 참고 자료는 새 페이지로 넘어가지 않도록 */
+    </style>
+  </css_requirements>
+  
+  <content_generation_process>
+    1. 입력된 [키워드]로 웹 검색을 수행하여 5개 내외의 주요 기사 수집
+    2. 수집된 기사들을 체계적으로 종합하여 references 확정
+    3. 종합 내용을 요약하여 main_summary_box 구성
+    4. 세부 내용을 각 섹션별로 체계적으로 정리하여 완성된 보고서 작성
+  </content_generation_process>
+  
+  <output_format>
+    완전한 HTML 문서 (CSS 스타일 포함)
+    반드시 2쪽 분량의 보고서로 완성
+    HTML 구조는 다음을 포함해야 함:
+    <html>
+      <head>
+        <style>
+          /* 여기에 모든 CSS 스타일 포함 */
+        </style>
+      </head>
+      <body>
+        <div class="page-1">
+          <!-- 첫 페이지 내용 -->
+          <div class="page-footer">- 1 -</div>
+        </div>
+        <div class="page-2">
+          <!-- 두 번째 페이지 내용 -->
+          <div class="page-footer">- 2 -</div>
+        </div>
+      </body>
+    </html>
+  </output_format>
+  
+  <content_requirements>
+    - 키워드 관련 웹 검색 결과를 바탕으로 내용 생성
+    - main_summary_box의 부제목은 헤드라인체로 작성 (종결어미 생략, 명사형으로 처리)
+    - paragraphs의 종결어미는 반드시 "한다", "이다" 사용
+    - 모든 불릿(-, •, □, ○, ▴)은 정확히 1개만 사용
+    - level_1 다음에 level_1이 올 경우에만 한 줄 공백 추가, level_2가 올 경우 공백 없음
+    - detail은 level_2 문장에 이어서 바로 나열
+    - 담당자 정보는 웹 검색 결과에서 확인된 확실한 정보만 사용, 불확실한 정보는 "확인 필요"로 표시
+    - 내용은 사실 기반으로 작성하되, 필요한 경우 통계 및 수치 데이터 포함
+    - 첫 페이지에는 헤더, main_summary_box, 첫 번째 섹션까지만 포함
+    - 두 번째 페이지에는 나머지 섹션과 참고 자료 포함
+  </content_requirements>
+  
+  <fact_checking>
+    - 모든 정보는 웹 검색 결과에서 확인된 사실만 포함할 것
+    - 기관명, 인명, 직책, 연락처 등은 반드시 웹 검색 결과에서 확인된 정보만 사용
+    - 확인되지 않은 정보를 추측하거나 생성하지 말 것
+    - 출처가 명확하지 않은 정보는 사용하지 말고 "확인 필요" 표시
+    - 모든 참고 자료는 실제 존재하는 URL 및 출처 정보 포함
+    - 날짜, 통계 수치 등의 팩트는 가능한 최신 정보 사용
+    - 서로 다른 출처에서 상충되는 정보가 있을 경우, 가장 신뢰할 수 있는 출처(정부 기관, 공식 보도자료 등) 정보 우선 사용
+  </fact_checking>
+</prompt>
+
+[키워드]: 대전 부동산 주요 뉴스
+"""
+
+====== 도구 호출 ======
+[
+  "ChatCompletionMessageToolCall(id='call_vy0lCew9Ov7sRbofFEpakroc', function=Function(arguments='{\"query\":\"\ub300\uc804 \ubd80\ub3d9\uc0b0 \uc8fc\uc694 \ub274\uc2a4\",\"region\":\"KR\",\"recency_days\":7}', name='web_search'), type='function')"
+]
+
+====== 검색어 ======
+대전 부동산 주요 뉴스
+
+====== 예상 검색 결과 ======
+(실제 검색 결과는 생략, 모델에 전달된 샘플 검색 결과만 포함)

@@ -1,0 +1,67 @@
+[2025-04-24 00:33:16,619][__main__][INFO] - 설정:
+keyword: 대전 부동산 주요 뉴스
+model:
+  name: gpt-4o
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 1.0
+  top_k: 20
+  frequency_penalty: 0.2
+  presence_penalty: 0.2
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 7
+  language: ko
+  safe_search: true
+prompt:
+  file: prompt.yaml
+  system_message: 한글로 대답해주세요. 정보가 부족할 경우 웹 검색을 활용하세요. 한국에 관련된 최신 정보를 검색하세요.
+
+[2025-04-24 00:33:16,697][__main__][INFO] - 검색 키워드: 대전 부동산 주요 뉴스
+[2025-04-24 00:33:16,698][__main__][INFO] - 사용 모델: gpt-4o
+[2025-04-24 00:33:16,698][__main__][INFO] - 생성 설정: 온도=0.1, 최대 토큰=16000, top_p=1.0
+[2025-04-24 00:33:16,711][__main__][INFO] - 프롬프트 준비 완료
+[2025-04-24 00:33:16,711][__main__][INFO] - OpenAI API 호출 중...
+[2025-04-24 00:33:17,898][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-04-24 00:33:17,909][__main__][INFO] - 응답 처리 중...
+[2025-04-24 00:33:17,910][__main__][INFO] - 웹 검색 도구 호출 감지, 프롬프트 업데이트 중...
+[2025-04-24 00:33:17,944][__main__][INFO] - 웹 검색 도구 호출 감지됨...
+[2025-04-24 00:33:17,944][__main__][INFO] - 검색어: 대전 부동산 주요 뉴스
+[2025-04-24 00:33:17,945][__main__][INFO] - 최종 응답 생성 중...
+[2025-04-24 00:33:45,465][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-04-24 00:33:45,467][__main__][INFO] - 
+--- 결과 미리보기 ---
+[2025-04-24 00:33:45,468][__main__][INFO] - ```html
+<html>
+  <head>
+    <style>
+      body {
+        font-family: '맑은 고딕', 'Malgun Gothic';
+        line-height: 1.6;
+        margin: 20px;
+        max-width: 800px;
+        margin-left: auto;
+   ...
+[2025-04-24 00:33:45,471][__main__][INFO] - HTML 파일 저장 완료: results\press_release_대전_부동산_주요_뉴스.html
+[2025-04-24 00:33:45,472][__main__][INFO] - 프롬프트 파일 저장 완료: results\press_release_대전_부동산_주요_뉴스_prompt.txt
+[2025-04-24 00:33:45,474][__main__][INFO] - 설정 파일 저장 완료: results/press_release_대전_부동산_주요_뉴스_config.yaml
+[2025-04-24 00:33:45,475][__main__][INFO] - 
+사용 가능한 설정 파라미터:
+[2025-04-24 00:33:45,475][__main__][INFO] - 모델 설정:
+[2025-04-24 00:33:45,475][__main__][INFO] -   model.name: 사용할 OpenAI 모델
+[2025-04-24 00:33:45,476][__main__][INFO] -   model.temperature: 생성 온도 (0-2, 낮을수록 일관성 높음)
+[2025-04-24 00:33:45,476][__main__][INFO] -   model.max_tokens: 최대 생성 토큰 수
+[2025-04-24 00:33:45,477][__main__][INFO] -   model.top_p: 확률 분포의 상위 p%에서만 토큰 선택 (0-1)
+[2025-04-24 00:33:45,478][__main__][INFO] - 
+웹 검색 설정:
+[2025-04-24 00:33:45,478][__main__][INFO] -   web_search.region: 검색 지역 (예: 'KR')
+[2025-04-24 00:33:45,479][__main__][INFO] -   web_search.recency_days: 최근 N일 내 결과만 검색
+[2025-04-24 00:33:45,479][__main__][INFO] - 
+사용 예시:
+[2025-04-24 00:33:45,479][__main__][INFO] -   python test_web.py keyword='인공지능 신기술'
+[2025-04-24 00:33:45,479][__main__][INFO] -   python test_web.py keyword='기후변화' model.temperature=0.5 model.max_tokens=3000
+[2025-04-24 00:33:45,504][__main__][INFO] -   python test_web.py output.file='climate_report.html' keyword='기후변화'

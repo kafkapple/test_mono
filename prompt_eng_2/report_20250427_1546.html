@@ -1,0 +1,136 @@
+```json
+{
+  "header": {
+    "date": "2023년 10월 5일",
+    "embargo": "즉시 배포",
+    "dept": "대전 부동산 연구소",
+    "contacts": [
+      {
+        "position": "연구원",
+        "name": "김민수",
+        "tel": "010-1234-5678"
+      }
+    ],
+    "photo": false,
+    "pages": 2
+  },
+  "summaries": [
+    {
+      "boxed": true,
+      "title": "대전 부동산 시장 전망",
+      "bullets": [
+        "2023년 대전 부동산 시장은 안정세를 보일 것으로 예상됨.",
+        "주택 공급 증가와 함께 가격 안정화가 이루어질 전망.",
+        "대전시의 교통 인프라 확장으로 인한 수요 증가 기대."
+      ]
+    },
+    {
+      "boxed": false,
+      "title": "주요 요인",
+      "bullets": [
+        "지방 정부의 주택 정책 변화.",
+        "금리 인상에 따른 대출 부담 증가.",
+        "대전의 인구 유입 현상."
+      ]
+    }
+  ],
+  "body": [
+    {
+      "level": 1,
+      "text": "대전 부동산 시장의 현재 상황"
+    },
+    {
+      "level": 2,
+      "text": "주택 공급과 수요",
+      "sub": [
+        "대전시는 최근 몇 년간 주택 공급을 늘려왔으며, 이는 시장 안정에 기여하고 있음.",
+        "특히, 신규 아파트 단지의 입주가 증가하면서 가격 상승세가 둔화되고 있음."
+      ]
+    },
+    {
+      "level": 2,
+      "text": "교통 인프라의 발전",
+      "sub": [
+        "대전시는 교통 인프라 확장에 힘쓰고 있으며, 이는 부동산 수요를 증가시킬 것으로 예상됨.",
+        "지하철 노선 확장 및 도로 개선이 주요 요인으로 작용하고 있음."
+      ]
+    }
+  ],
+  "footnotes": [
+    {
+      "id": 1,
+      "src": "대전 부동산 연구소",
+      "date": "2023년 10월 5일"
+    }
+  ]
+}
+```
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  body{font-family:'Noto Sans KR',sans-serif;margin:0;padding:20px}
+  table{border-collapse:collapse;font-size:14px}
+  td,th{border:1px solid #000;padding:4px}
+  h2{margin:4px 0} ul{margin:2px 0 6px 18px}
+  .boxed{border:1px solid #000;padding:6px}
+  .b1{margin-left:0}.b2{margin-left:2em}.b3{margin-left:3em}
+</style>
+</head>
+<body>
+<!-- 헤더 -->
+<table width="100%">
+<tr><td colspan="2" align="center">2023년 10월 5일</td></tr>
+<tr><td colspan="2" align="center">즉시 배포</td></tr>
+</table>
+<h1 style="float:right;margin:0">보도자료</h1><hr/>
+<table width="100%">
+<tr><td width="25%">대전 부동산 연구소</td><td>
+  <table>
+    <tr><td>연구원</td><td>김민수</td><td>010-1234-5678</td></tr>
+  </table>
+</td></tr>
+</table>
+<p>사진 있음 □ 사진 없음 &emsp;쪽수:2쪽</p><hr/>
+
+<!-- 요약 -->
+<div class="boxed">
+  <h2>대전 부동산 시장 전망</h2>
+  <ul>
+    <li>2023년 대전 부동산 시장은 안정세를 보일 것으로 예상됨.</li>
+    <li>주택 공급 증가와 함께 가격 안정화가 이루어질 전망.</li>
+    <li>대전시의 교통 인프라 확장으로 인한 수요 증가 기대.</li>
+  </ul>
+</div>
+<div>
+  <h2>주요 요인</h2>
+  <ul>
+    <li>지방 정부의 주택 정책 변화.</li>
+    <li>금리 인상에 따른 대출 부담 증가.</li>
+    <li>대전의 인구 유입 현상.</li>
+  </ul>
+</div>
+
+<!-- 본문 -->
+<h1>대전 부동산 시장의 현재 상황</h1>
+<h2>주택 공급과 수요</h2>
+<ul>
+  <li>대전시는 최근 몇 년간 주택 공급을 늘려왔으며, 이는 시장 안정에 기여하고 있음.</li>
+  <li>특히, 신규 아파트 단지의 입주가 증가하면서 가격 상승세가 둔화되고 있음.</li>
+</ul>
+<h2>교통 인프라의 발전</h2>
+<ul>
+  <li>대전시는 교통 인프라 확장에 힘쓰고 있으며, 이는 부동산 수요를 증가시킬 것으로 예상됨.</li>
+  <li>지하철 노선 확장 및 도로 개선이 주요 요인으로 작용하고 있음.</li>
+</ul>
+
+<hr/><p style="text-align:center">- 2 -</p>
+<ol>
+  <li>대전 부동산 연구소, 2023년 10월 5일</li>
+</ol>
+</body>
+</html>
+```

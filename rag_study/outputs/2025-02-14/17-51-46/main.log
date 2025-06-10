@@ -1,0 +1,6 @@
+[2025-02-14 17:51:50,626][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+[2025-02-14 17:51:51,609][faiss.loader][INFO] - Loading faiss with AVX2 support.
+[2025-02-14 17:51:51,632][faiss.loader][INFO] - Successfully loaded faiss with AVX2 support.
+[2025-02-14 17:51:51,641][faiss][INFO] - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+[2025-02-14 17:51:53,432][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+[2025-02-14 17:52:00,411][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

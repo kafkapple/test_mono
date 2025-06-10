@@ -1,0 +1,22 @@
+# ByteTrack 추적 알고리즘 설정
+name: bytetrack
+version: "x"  # nano, tiny, s, m, l, x 중 선택
+
+# 추적 파라미터
+parameters:
+  track_thresh: 0.5  # 높은 점수 검출 임계값
+  track_buffer: 30  # 트랙 버퍼 크기
+  match_thresh: 0.8  # 매칭 임계값
+  min_box_area: 10  # 최소 박스 영역
+  mot20: false  # MOT20 데이터셋 형식 사용 여부
+
+# 세그멘테이션 마스크 연동 설정
+segmentation:
+  use_mask_iou: true  # 마스크 IoU 사용 여부
+  mask_iou_weight: 0.5  # 마스크 IoU 가중치 (바운딩 박스 IoU와 마스크 IoU 결합 비율)
+  mask_area_thresh: 100  # 최소 마스크 영역
+
+# 칼만 필터 설정
+kalman:
+  use_kalman: true  # 칼만 필터 사용 여부
+  motion_model: "constant_velocity"  # constant_velocity 또는 constant_acceleration

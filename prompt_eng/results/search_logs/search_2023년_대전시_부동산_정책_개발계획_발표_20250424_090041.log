@@ -1,0 +1,183 @@
+﻿검색 키워드: 2023년 대전시 부동산 정책 개발계획 발표
+검색 시간: 2025-04-24 09:00:41
+
+====== 생성된 응답에서 참조된 URL 및 출처 분석 ======
+
+응답에서 URL이나 출처 정보를 찾을 수 없습니다.
+
+====== 전체 응답 내용 ======
+
+```html
+<html>
+  <head>
+    <style>
+      /* 여기에 모든 CSS 스타일 포함 */
+      body {
+        font-family: 'Malgun Gothic', sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table, th, td {
+        border: 1px solid black;
+      }
+      th, td {
+        padding: 8px;
+        text-align: left;
+      }
+      .blue-text {
+        color: blue;
+      }
+      .right-align {
+        text-align: right;
+      }
+      .underline {
+        text-decoration: underline;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .main-title {
+        font-size: 25px;
+        font-weight: bold;
+        text-align: left;
+      }
+      .subtitles {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .subtitles li {
+        font-family: '헤드라인체', sans-serif;
+      }
+      .content-box {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding: 10px;
+      }
+      .content-box .content-title {
+        font-size: 25px;
+        font-weight: bold;
+        text-align: left;
+      }
+      .content-box .content-paragraphs {
+        margin-top: 10px;
+      }
+      .content-box .content-paragraphs .level-1 {
+        margin-bottom: 10px;
+      }
+      .content-box .content-paragraphs .level-2 {
+        margin-left: 20px;
+        margin-bottom: 10px;
+      }
+      .content-box .content-paragraphs .detail {
+        margin-left: 40px;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: left;
+        text-decoration: underline;
+        margin-top: 20px;
+      }
+      .page-footer {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .page-footer .page-number {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+      }
+      .references {
+        margin-top: 20px;
+        text-align: left;
+      }
+      .references .title {
+        font-weight: bold;
+      }
+      .references .list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .references .list li {
+        margin-bottom: 5px;
+      }
+      /* 페이지 나누기 설정 (인쇄용) */
+      @page {
+        size: A4;
+        margin: 2cm;
+      }
+      @media print {
+        body {
+          width: 210mm;
+          height: 297mm;
+          margin: 0;
+        }
+      }
+      #section2 {
+        page-break-before: always;
+      }
+      .page-1, .page-2 {
+        position: relative;
+        min-height: 297mm;
+      }
+      .page-1 .page-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+      .page-2 .page-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+      }
+      .references {
+        page-break-before: avoid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-1">
+      <header>
+        <table>
+          <tr><td class="blue-text">2025. 4. 24(목) 조간용</td></tr>
+          <tr><td>이 보도자료는 2025년 4월 24일 11:15부터 보도할 수 있습니다.</td></tr>
+        </table>
+        <div class="right-align bold" style="font-size: 24px;">보도자료</div>
+        <hr>
+        <div class="content-box">
+          <div class="main-title">대전시, 2023년 부동산 정책 개발계획 발표</div>
+          <ul class="subtitles">
+            <li>- 부제목 1 - 헤드라인체로 작성</li>
+            <li>- 부제목 2 - 헤드라인체로 작성</li>
+            <li>- 부제목 3 - 헤드라인체로 작성</li>
+          </ul>
+        </div>
+        <div class="content-paragraphs">
+          <div class="level-1">□ [main_summary_box 내용에 대한 상세 설명 1, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-2">○ [상세 설명에 대한 부연 내용, 종결어미 "한다", "이다" 사용]</div>
+          <div class="detail">▴ [세부 항목 1] ▴ [세부 항목 2]</div>
+          <div class="level-1">□ [main_summary_box 내용에 대한 상세 설명 2, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-1">□ [main_summary_box 내용에 대한 상세 설명 3, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-2">○ [상세 설명에 대한 부연 내용, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-1">□ [main_summary_box 내용에 대한 상세 설명 4, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-2">○ [상세 설명에 대한 부연 내용, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-1">□ [main_summary_box 내용에 대한 상세 설명 5, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-2">○ [상세 설명에 대한 부연 내용, 종결어미 "한다", "이다" 사용]</div>
+        </div>
+        <div class="section-title">[상세한 섹션 제목 1]</div>
+        <div class="content-paragraphs">
+          <div class="level-1">□ [상세한 내용 1-1, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-2">○ [내용 1-1-1, 종결어미 "한다", "이다" 사용]</div>
+          <div class="detail">▴ [세부 항목 1] ▴ [세부 항목 2]</div>
+          <div class="level-1">□ [상세한 내용 1-2, 종결어미 "한다", "이다" 사용]</div>
+          <div class="level-1">□ [상세한 

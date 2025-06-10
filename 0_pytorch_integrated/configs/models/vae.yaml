@@ -1,0 +1,26 @@
+# VAE 모델 설정
+model:
+  name: "VAE"
+  type: "vae"  # vae 또는 conv_vae
+  
+  # 모델 아키텍처 설정
+  architecture:
+    input_dim: 784  # MNIST 이미지 크기 (28x28)
+    hidden_dim: 256
+    latent_dim: 20
+    beta: 1.0  # KL 발산 가중치
+    
+    # ConvVAE 전용 설정
+    conv_vae:
+      in_channels: 1
+      encoder_channels: [32, 64, 128]
+      decoder_channels: [128, 64, 32]
+      kernel_size: 4
+      stride: 2
+      padding: 1
+  
+  # 결과 저장 설정
+  save:
+    dir: "results/vae_mnist"
+    save_best: true
+    save_frequency: 1  # 매 N 에포크마다 저장 

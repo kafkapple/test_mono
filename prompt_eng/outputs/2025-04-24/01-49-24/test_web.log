@@ -1,0 +1,29 @@
+[2025-04-24 01:49:24,699][__main__][INFO] - 설정:
+keyword: 대전시 부동산 정책 변화
+model:
+  name: gpt-4o-mini-search-preview
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 0.9
+  top_k: 20
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 7
+  language: ko
+  safe_search: true
+prompt:
+  file: prompt.yaml
+  system_message: 한글로 대답해주세요. 정보가 부족할 경우 웹 검색을 활용하세요. 한국에 관련된 최신 정보를 검색하세요.
+
+[2025-04-24 01:49:24,781][__main__][INFO] - 검색 키워드: 대전시 부동산 정책 변화
+[2025-04-24 01:49:24,782][__main__][INFO] - 사용 모델: gpt-4o-mini-search-preview
+[2025-04-24 01:49:24,782][__main__][INFO] - 생성 설정: 온도=0.1, 최대 토큰=16000, top_p=0.9
+[2025-04-24 01:49:24,783][__main__][INFO] - 프롬프트 준비 완료
+[2025-04-24 01:49:24,783][__main__][INFO] - OpenAI API 호출 중...
+[2025-04-24 01:49:25,112][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"

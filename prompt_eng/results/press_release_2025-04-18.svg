@@ -1,0 +1,81 @@
+
+# == resources/template.svg ==
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1132" viewBox="0 0 800 1132">
+  <style>
+    .font { font-family:'Nanum Gothic',sans-serif; }
+    .small { font-size:12px; }
+    .body  { font-size:12px; line-height:1.5; }
+    .title { font-size:20px; font-weight:bold; }
+    .black { fill:#000; }
+    .white { fill:#fff; }
+    .tbl td{padding:2px 4px; font-size:11px;}
+  </style>
+
+  <!-- 날짜 + 엠바고 -->
+  <rect x="230" y="30" width="340" height="40" fill="none" stroke="#000"/>
+  <text x="400" y="55" text-anchor="middle" class="font small">2023-10-10 | </text>
+
+  <!-- 로고 & 보도자료 글자 -->
+  <image href="/images/logo.png" x="30" y="85" width="120" height="35"/>
+  <text x="700" y="120" text-anchor="end" class="font" font-size="22" font-weight="bold">보도자료</text>
+
+  <!-- 담당부서 표 -->
+  <foreignObject x="500" y="145" width="260" height="120">
+    <table xmlns="http://www.w3.org/1999/xhtml" class="tbl" border="1" width="100%">
+      <tr><th>직책</th><th>이름</th><th>연락처</th></tr>
+      
+    </table>
+  </foreignObject>
+
+  <!-- 사진 여부 & 쪽수 표시용 자리 -->
+  <text x="30" y="250" class="font small">사진 없음 ■   사진 있음 □   쪽수: 1쪽</text>
+
+  <!-- 검은 타이틀 박스 -->
+  <rect x="0" y="270" width="800" height="70" class="black"/>
+  <foreignObject x="30" y="280" width="740" height="50">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font white title">트럼프 관세 전쟁에 대한 한국 정부의 입장</div>
+  </foreignObject>
+
+  <!-- Bullet 요약 -->
+  <foreignObject x="30" y="350" width="740" height="100">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font body">
+      <ul style="margin:0; padding-left:18px;">
+        <li>트럼프 전 대통령의 관세 정책이 한국 경제에 미치는 영향 분석</li><li>한국 정부의 대응 방안 및 협상 전략</li><li>관세 전쟁의 글로벌 경제에 대한 장기적 전망</li>
+      </ul>
+    </div>
+  </foreignObject>
+
+  <!-- 본문 -->
+  <foreignObject x="30" y="460" width="740" height="600">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font body"><h1>트럼프 관세 전쟁에 대한 한국 정부의 입장</h1>
+<p><strong>기관:</strong> Korean Ministry of Trade, Industry and Energy<br />
+<strong>날짜:</strong> 2023-10-10  </p>
+<h2>□ 개요</h2>
+<ul>
+<li>트럼프 전 대통령의 관세 정책이 한국 경제에 미치는 영향 분석</li>
+<li>한국 정부의 대응 방안 및 협상 전략</li>
+<li>관세 전쟁의 글로벌 경제에 대한 장기적 전망</li>
+</ul>
+<h2>□ 본문 1</h2>
+<p>{'title': '트럼프 관세 전쟁의 배경', 'content': '트럼프 전 대통령의 관세 정책은 미국과 중국 간의 무역 전쟁에서 시작되었으며, 한국을 포함한 여러 국가에 영향을 미치고 있다. 관세 인상은 수출입 가격에 직접적인 영향을 미쳐 한국 경제에 부정적인 영향을 미칠 수 있다. ▲'}</p>
+<h2>□ 본문 2</h2>
+<p>{'title': '한국 정부의 대응 방안', 'content': '한국 정부는 관세 전쟁에 대응하기 위해 다양한 외교적 노력을 기울이고 있으며, 미국과의 협상에서 한국의 이익을 보호하기 위한 전략을 수립하고 있다. ○'}</p>
+<h2>□ 본문 3</h2>
+<p>{'title': '관세 전쟁의 글로벌 경제에 대한 영향', 'content': '관세 전쟁은 글로벌 공급망에 혼란을 초래하고 있으며, 이는 한국을 포함한 여러 국가의 경제 성장에 부정적인 영향을 미칠 수 있다. TBC'}</p>
+<h2>참고자료</h2>
+<ol>
+<li>{'title': '관세 전쟁 관련 보고서', 'url': 'http://example.com/report'}</li>
+<li>{'title': '한국 정부의 무역 정책', 'url': 'http://example.com/trade-policy'}</li>
+</ol></div>
+  </foreignObject>
+
+  <!-- 참고자료 -->
+  
+  <foreignObject x="30" y="1070" width="740" height="50">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font body"><strong>참고자료</strong><br/>1. {'title': '관세 전쟁 관련 보고서', 'url': 'http://example.com/report'}<br/>2. {'title': '한국 정부의 무역 정책', 'url': 'http://example.com/trade-policy'}<br/></div>
+  </foreignObject>
+  
+
+  <!-- 페이지 번호 -->
+  <text x="400" y="1110" text-anchor="middle" class="font small">- 1 -</text>
+</svg>

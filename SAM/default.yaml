@@ -1,0 +1,33 @@
+# 시각화 설정
+name: default
+
+# 시각화 일반 설정
+general:
+  font_size: 1.0
+  line_thickness: 2
+  show_fps: true
+  show_track_id: true
+  show_confidence: true
+
+# 색상 설정
+colors:
+  use_random_colors: true
+  palette: "rainbow"  # rainbow, tableau, custom
+  custom_colors: null  # 사용자 정의 색상 리스트 (use_random_colors가 false이고 palette가 custom일 경우)
+  
+# 마스크 시각화 설정
+mask:
+  alpha: 0.5  # 마스크 투명도 (0-1)
+  show_contour: true  # 마스크 윤곽선 표시 여부
+  contour_thickness: 2  # 윤곽선 두께
+
+# 바운딩 박스 시각화 설정
+bbox:
+  show: true  # 바운딩 박스 표시 여부
+  thickness: 2  # 바운딩 박스 두께
+  
+# 궤적 시각화 설정
+trajectory:
+  show: true  # 궤적 표시 여부
+  length: 20  # 표시할 궤적 길이 (프레임 수)
+  thickness: 2  # 궤적 선 두께

@@ -1,0 +1,44 @@
+
+# == resources/config.yaml ==
+model: gpt-4o-mini
+system_prompt: |
+  You are a Korean government press‑release writer. Respond **only** with JSON that matches the schema.
+user_prompt: |
+  [topic]={topic}
+  [pages]={pages}
+  Fill every field.  □ / ○ / ▲ hierarchy in body text.  If unknown, write "[TBC]".
+schema: |
+  name: draft_press_release
+  description: Create structured SVG press‑release data.
+  parameters:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          date      : {type: string}
+          embargo   : {type: string}
+          agency    : {type: string}
+          department: {type: string}
+          logo_path : {type: string}
+          photo_flag: {type: string}   # "있음" / "없음"
+          contacts  :
+            type: array
+            items:
+              type: object
+              properties:
+                title: {type:string}
+                name : {type:string}
+                phone: {type:string}
+        required: [date, agency]
+      summary:
+        type: object
+        properties:
+          title  : {type:string}
+          bullets:
+            type: array
+            items: {type:string}
+        required: [title, bullets]
+      body_pages : {type: array, items: {type:string}}
+      references : {type: array, items: {type:string}}
+    required: [meta, summary, body_pages]

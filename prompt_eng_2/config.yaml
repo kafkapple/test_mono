@@ -1,0 +1,10 @@
+
+provider: openai
+model: gpt-4o-mini          # 다른 이름으로 교체 가능
+params:                     # OpenAI ChatCompletion 인자 그대로
+  temperature: 0.3
+  top_p: 0.9
+  max_tokens: 16000
+
+tool: duckduckgo               # serpapi | duckduckgo | none
+output_format: html         # html | svg

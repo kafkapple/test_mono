@@ -1,0 +1,62 @@
+
+# == resources/template.svg ==
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1132" viewBox="0 0 800 1132">
+  <style>
+    .font { font-family:'Nanum Gothic',sans-serif; }
+    .small { font-size:12px; }
+    .body  { font-size:12px; line-height:1.5; }
+    .title { font-size:20px; font-weight:bold; }
+    .black { fill:#000; }
+    .white { fill:#fff; }
+    .tbl td{padding:2px 4px; font-size:11px;}
+  </style>
+
+  <!-- 날짜 + 엠바고 -->
+  <rect x="230" y="30" width="340" height="40" fill="none" stroke="#000"/>
+  <text x="400" y="55" text-anchor="middle" class="font small">{{ meta.date }} | {{ meta.embargo }}</text>
+
+  <!-- 로고 & 보도자료 글자 -->
+  <image href="{{ meta.logo_path }}" x="30" y="85" width="120" height="35"/>
+  <text x="700" y="120" text-anchor="end" class="font" font-size="22" font-weight="bold">보도자료</text>
+
+  <!-- 담당부서 표 -->
+  <foreignObject x="500" y="145" width="260" height="120">
+    <table xmlns="http://www.w3.org/1999/xhtml" class="tbl" border="1" width="100%">
+      <tr><th>직책</th><th>이름</th><th>연락처</th></tr>
+      {{ contacts_html|safe }}
+    </table>
+  </foreignObject>
+
+  <!-- 사진 여부 & 쪽수 표시용 자리 -->
+  <text x="30" y="250" class="font small">사진 없음 {{ '□' if meta.photo_flag=='없음' else '■' }}   사진 있음 {{ '■' if meta.photo_flag=='있음' else '□' }}   쪽수: 1쪽</text>
+
+  <!-- 검은 타이틀 박스 -->
+  <rect x="0" y="270" width="800" height="70" class="black"/>
+  <foreignObject x="30" y="280" width="740" height="50">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font white title">{{ summary.title }}</div>
+  </foreignObject>
+
+  <!-- Bullet 요약 -->
+  <foreignObject x="30" y="350" width="740" height="100">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font body">
+      <ul style="margin:0; padding-left:18px;">
+        {% for b in summary.bullets %}<li>{{ b }}</li>{% endfor %}
+      </ul>
+    </div>
+  </foreignObject>
+
+  <!-- 본문 -->
+  <foreignObject x="30" y="460" width="740" height="600">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font body">{{ body_html|safe }}</div>
+  </foreignObject>
+
+  <!-- 참고자료 -->
+  {% if references %}
+  <foreignObject x="30" y="1070" width="740" height="50">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="font body"><strong>참고자료</strong><br/>{% for r in references %}{{ loop.index }}. {{ r }}<br/>{% endfor %}</div>
+  </foreignObject>
+  {% endif %}
+
+  <!-- 페이지 번호 -->
+  <text x="400" y="1110" text-anchor="middle" class="font small">- 1 -</text>
+</svg>

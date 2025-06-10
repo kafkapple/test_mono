@@ -1,0 +1,44 @@
+# MNIST 데이터셋 설정
+dataset:
+  name: 'mnist'
+  paths:
+    root: './data'  # 데이터 저장 경로
+
+  transform:
+    train:
+      - name: ToTensor
+      - name: Normalize
+        mean: [0.1307]
+        std: [0.3081]
+      - name: Lambda
+        func: flatten_batch  # VAE를 위한 배치 평탄화
+
+    test:
+      - name: ToTensor
+      - name: Normalize
+        mean: [0.1307]
+        std: [0.3081]
+      - name: Lambda
+        func: flatten_batch  # VAE를 위한 배치 평탄화
+
+  dataloader:
+    train:
+      batch_size: 32
+      shuffle: true
+      num_workers: 4
+      pin_memory: true
+      drop_last: true
+
+    test:
+      batch_size: 32
+      shuffle: false
+      num_workers: 4
+      pin_memory: true
+      drop_last: false
+
+  properties:
+    image_size: [28, 28]  # 이미지 크기 (높이, 너비)
+    channels: 1           # 채널 수 (흑백)
+    num_classes: 10       # 클래스 수
+    train_size: 60000     # 학습 데이터 크기
+    test_size: 10000      # 테스트 데이터 크기 

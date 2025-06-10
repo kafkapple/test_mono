@@ -1,0 +1,63 @@
+[2025-04-24 02:06:59,405][__main__][INFO] - 설정:
+keyword: 2023년 대전시 부동산 정책 개발계획 발표
+model:
+  name: gpt-4o-search-preview
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 0.9
+  top_k: 20
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 365
+  language: ko
+  safe_search: true
+  search_context_size: high
+  user_location: 대전, 대한민국
+  include_citations: true
+prompt:
+  file: prompt.yaml
+  system_message: 한글로 대답해주세요. 웹 검색을 통해 사실 정보를 확인하고 출처를 명확히 인용해주세요. 답변 마지막에는 반드시 참고한
+    URL을 명시하세요. 신뢰할 수 있는 한국 뉴스 소스와 정부 웹사이트를 우선적으로 참조하세요.
+
+[2025-04-24 02:06:59,604][__main__][INFO] - 검색 키워드: 2023년 대전시 부동산 정책 개발계획 발표
+[2025-04-24 02:06:59,605][__main__][INFO] - 웹 검색 지원 모델 사용: gpt-4o-search-preview
+[2025-04-24 02:06:59,606][__main__][INFO] - 생성 설정: 온도=0.1, 최대 토큰=16000, top_p=0.9
+[2025-04-24 02:06:59,609][__main__][INFO] - 프롬프트 준비 완료
+[2025-04-24 02:06:59,610][__main__][INFO] - 검색 컨텍스트 크기: high
+[2025-04-24 02:06:59,611][__main__][INFO] - 지역 기반 검색: 위치 '대전, 대한민국'에 맞는 결과를 검색합니다.
+[2025-04-24 02:06:59,618][__main__][INFO] - 인용 자동 포함 옵션 활성화됨: 검색 결과의 출처가 응답에 자동으로 포함됩니다.
+[2025-04-24 02:06:59,619][__main__][INFO] - OpenAI API 호출 중...
+[2025-04-24 02:06:59,619][__main__][INFO] - 웹 검색 지원 모델을 사용 중입니다.
+[2025-04-24 02:06:59,619][__main__][INFO] - 웹 검색 옵션 사용: {'search_context_size': 'high', 'user_location': '대전, 대한민국'}
+[2025-04-24 02:06:59,620][__main__][INFO] - 검색 모델은 일부 생성 파라미터를 지원하지 않습니다. 기본 파라미터만 전달합니다.
+[2025-04-24 02:06:59,937][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+[2025-04-24 02:06:59,938][__main__][ERROR] - API 호출 중 오류 발생: Error code: 400 - {'error': {'message': "Invalid type for 'web_search_options.user_location': expected an object, but got a string instead.", 'type': 'invalid_request_error', 'param': 'web_search_options.user_location', 'code': 'invalid_type'}}
+[2025-04-24 02:06:59,938][__main__][ERROR] - 사용 중인 모델이 웹 검색 기능을 지원하지 않거나 API 설정에 문제가 있습니다.
+[2025-04-24 02:06:59,939][__main__][ERROR] - 지원되는 모델: gpt-4o-search-preview, gpt-4o-mini-search-preview 등
+[2025-04-24 02:06:59,939][__main__][INFO] - 
+사용 가능한 설정 파라미터:
+[2025-04-24 02:06:59,939][__main__][INFO] - 모델 설정:
+[2025-04-24 02:06:59,939][__main__][INFO] -   model.name: 모델 이름 (웹 검색 지원 모델: gpt-4o-mini-search-preview, gpt-4o-search-preview)
+[2025-04-24 02:06:59,940][__main__][INFO] -   model.temperature: 생성 온도 (0-2, 낮을수록 일관성 높음)
+[2025-04-24 02:06:59,940][__main__][INFO] -   model.max_tokens: 최대 생성 토큰 수
+[2025-04-24 02:06:59,940][__main__][INFO] -   model.top_p: 확률 분포의 상위 p%에서만 토큰 선택 (0-1)
+[2025-04-24 02:06:59,941][__main__][INFO] - 
+웹 검색 설정:
+[2025-04-24 02:06:59,941][__main__][INFO] -   web_search.region: 검색 지역 (예: 'KR')
+[2025-04-24 02:06:59,942][__main__][INFO] -   web_search.recency_days: 최근 N일 내 결과만 검색
+[2025-04-24 02:06:59,942][__main__][INFO] -   web_search.search_context_size: 검색 결과의 양 ('low', 'medium', 'high')
+[2025-04-24 02:06:59,943][__main__][INFO] -   web_search.user_location: 사용자 위치 정보 (검색 결과 지역화)
+[2025-04-24 02:06:59,943][__main__][INFO] -   web_search.include_citations: 응답에 출처 인용 자동 포함 여부 (true/false)
+[2025-04-24 02:06:59,943][__main__][INFO] - 
+출력 설정:
+[2025-04-24 02:06:59,944][__main__][INFO] -   output.file: 출력 파일 이름 (기본값: 키워드 기반 자동 생성)
+[2025-04-24 02:06:59,944][__main__][INFO] -   output.preview_length: 결과 미리보기 길이
+[2025-04-24 02:06:59,945][__main__][INFO] - 
+참고: 웹 검색을 위해 모델이름에 'search'가 포함된 모델을 사용하세요.
+[2025-04-24 02:06:59,945][__main__][INFO] - 자세한 정보는 https://platform.openai.com/docs/guides/web-search 를 참조하세요.

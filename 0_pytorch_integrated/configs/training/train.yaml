@@ -1,0 +1,48 @@
+# 학습 공통 설정
+training:
+  # 기본 학습 설정
+  epochs: 10
+  batch_size: 128
+  learning_rate: 1e-3
+  early_stopping: 5  # 조기 종료 에포크 수
+  
+  # 옵티마이저 설정
+  optimizer:
+    name: "adam"
+    weight_decay: 0.0
+    beta1: 0.9
+    beta2: 0.999
+    eps: 1e-8
+  
+  # 학습률 스케줄러 설정
+  scheduler:
+    name: "none"  # none, step, cosine
+    step_size: 10
+    gamma: 0.1
+    min_lr: 1e-6
+    
+  # 데이터 로더 설정
+  dataloader:
+    num_workers: 4
+    pin_memory: true
+    shuffle: true
+    drop_last: false
+    
+  # 검증 설정
+  validation:
+    frequency: 1  # 매 N 에포크마다 검증
+    metrics: ["loss", "recon_loss", "kl_loss"]
+    
+  # 체크포인트 설정
+  checkpoint:
+    save_dir: "results/checkpoints"
+    save_frequency: 1  # 매 N 에포크마다 저장
+    save_best_only: true
+    monitor: "val_loss"
+    mode: "min"
+    
+  # 로깅 설정
+  logging:
+    log_interval: 10
+    tensorboard: true
+    wandb: false  # Weights & Biases 사용 여부 

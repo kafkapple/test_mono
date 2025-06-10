@@ -1,0 +1,32 @@
+[2025-04-24 09:27:00,884][__main__][INFO] - 설정:
+keyword: 2023년 대전시 부동산 정책 개발계획 발표
+model:
+  name: gpt-4o-mini-search-preview
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 0.5
+  top_k: 5
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 365
+  language: ko
+  safe_search: true
+  search_context_size: high
+  user_location: KR
+  include_citations: true
+prompt:
+  file: prompt.yaml
+  system_message: 한글로 대답해주세요. 웹 검색을 통해 사실 정보를 확인하고 출처를 명확히 인용해주세요. 답변 마지막에는 반드시 참고한
+    URL을 명시하세요. 신뢰할 수 있는 한국 뉴스 소스와 정부 웹사이트를 우선적으로 참조하세요.
+
+[2025-04-24 09:27:00,969][__main__][INFO] - 검색 키워드: 2023년 대전시 부동산 정책 개발계획 발표
+[2025-04-24 09:27:00,970][__main__][INFO] - 사용 모델: gpt-4o-mini-search-preview
+[2025-04-24 09:27:00,970][__main__][INFO] - OpenAI API 호출 중...
+[2025-04-24 09:27:01,425][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
+[2025-04-24 09:27:01,427][__main__][ERROR] - 오류 발생: Error code: 400 - {'error': {'message': "Missing required parameter: 'web_search_options.user_location.type'.", 'type': 'invalid_request_error', 'param': 'web_search_options.user_location.type', 'code': 'missing_required_parameter'}}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="800" height="600" fill="#f8fafc" />
+  
+  <!-- ByteTrack 추적 결과 시각화 -->
+  <g transform="translate(100, 100)">
+    <!-- 배경 이미지 영역 -->
+    <rect width="600" height="400" fill="#e2e8f0" rx="10" ry="10" />
+    
+    <!-- 객체 1: 사람 -->
+    <rect x="140" y="140" width="120" height="120" fill="none" stroke="#3b82f6" stroke-width="3" />
+    <text x="150" y="135" font-family="Arial" font-size="16" fill="#3b82f6" font-weight="bold">ID: 1 (0.92)</text>
+    <polyline points="200,200 190,180 180,160 170,140 160,120" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,3" fill="none" />
+    
+    <!-- 객체 2: 자동차 -->
+    <rect x="330" y="200" width="140" height="100" fill="none" stroke="#10b981" stroke-width="3" />
+    <text x="340" y="195" font-family="Arial" font-size="16" fill="#10b981" font-weight="bold">ID: 2 (0.88)</text>
+    <polyline points="400,250 410,240 420,230 430,220 440,210" stroke="#10b981" stroke-width="2" stroke-dasharray="5,3" fill="none" />
+    
+    <!-- 객체 3: 자전거 -->
+    <rect x="460" y="110" width="80" height="80" fill="none" stroke="#8b5cf6" stroke-width="3" />
+    <text x="470" y="105" font-family="Arial" font-size="16" fill="#8b5cf6" font-weight="bold">ID: 3 (0.79)</text>
+    <polyline points="500,150 510,160 520,170 530,180 540,190" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,3" fill="none" />
+    
+    <!-- 프레임 정보 -->
+    <text x="20" y="30" font-family="Arial" font-size="16" fill="#1e293b">Frame: 42 | FPS: 15.2 | Tracked Objects: 3</text>
+    
+    <!-- 좌표축 -->
+    <line x1="20" y1="380" x2="580" y2="380" stroke="#94a3b8" stroke-width="1" />
+    <line x1="20" y1="20" x2="20" y2="380" stroke="#94a3b8" stroke-width="1" />
+    
+    <!-- 격자 -->
+    <g stroke="#e2e8f0" stroke-width="0.5">
+      <line x1="120" y1="20" x2="120" y2="380" />
+      <line x1="220" y1="20" x2="220" y2="380" />
+      <line x1="320" y1="20" x2="320" y2="380" />
+      <line x1="420" y1="20" x2="420" y2="380" />
+      <line x1="520" y1="20" x2="520" y2="380" />
+      
+      <line x1="20" y1="80" x2="580" y2="80" />
+      <line x1="20" y1="140" x2="580" y2="140" />
+      <line x1="20" y1="200" x2="580" y2="200" />
+      <line x1="20" y1="260" x2="580" y2="260" />
+      <line x1="20" y1="320" x2="580" y2="320" />
+    </g>
+  </g>
+  
+  <!-- 설명 텍스트 -->
+  <text x="400" y="550" font-family="Arial" font-size="18" fill="#1e293b" text-anchor="middle">ByteTrack 객체 추적 결과 시각화</text>
+</svg>

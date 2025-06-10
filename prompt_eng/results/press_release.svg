@@ -1,0 +1,46 @@
+# template.svg (요약)
+<svg viewBox="0 0 800 1132" xmlns="http://www.w3.org/2000/svg">
+  <!-- ...공통 defs·symbol 생략... -->
+  <text x="400" y="120" class="title-text">2025-01-01</text>
+  <!-- 요약 타이틀 -->
+  <rect x="100" y="350" width="600" height="50" class="title-box"/>
+  <text x="120" y="382" class="report-title">2025년 트럼프 관세 전쟁의 영향과 전망</text>
+
+  <!-- bullets -->
+  
+  <circle cx="110" cy="425" r="4" class="bullet-point"/>
+  <text  x="120" y="430" class="summary-text">트럼프 행정부의 새로운 관세 정책 발표</text>
+  
+  <circle cx="110" cy="455" r="4" class="bullet-point"/>
+  <text  x="120" y="460" class="summary-text">무역 파트너국과의 긴장 고조</text>
+  
+  <circle cx="110" cy="485" r="4" class="bullet-point"/>
+  <text  x="120" y="490" class="summary-text">소비자 물가 상승 우려</text>
+  
+  <circle cx="110" cy="515" r="4" class="bullet-point"/>
+  <text  x="120" y="520" class="summary-text">국내 산업에 미치는 영향 분석</text>
+  
+
+  <!-- 본문 -->
+  
+  <g id="section1" transform="translate(100, 600)">
+      <text>2025년 1월 1일, 재무부는 트럼프 전 대통령의 새로운 관세 정책을 발표했다. 이 정책은 미국의 무역 파트너국에 대한 추가 관세를 부과하는 내용을 포함하고 있다. 이러한 조치는 미국 내 산업 보호와 일자리 창출을 목표로 하고 있지만, 국제 무역에서의 긴장을 더욱 고조시킬 것으로 예상된다.</text>
+  </g>
+  
+  <g id="section2" transform="translate(100, 1000)">
+      <text>관세 인상은 특정 제품의 가격 상승으로 이어져 소비자에게 직접적인 영향을 미칠 것으로 보인다. 전문가들은 이러한 변화가 소비자 물가에 미치는 영향을 면밀히 분석하고 있으며, 특히 필수 소비재의 가격 상승이 우려되고 있다.</text>
+  </g>
+  
+  <g id="section3" transform="translate(100, 1400)">
+      <text>국내 산업에 대한 긍정적인 효과와 부정적인 효과가 동시에 나타날 것으로 예상된다. 일부 산업은 보호받을 수 있지만, 다른 산업은 원자재 비용 상승으로 어려움을 겪을 수 있다. 이러한 복합적인 상황 속에서 정부는 지속적인 모니터링과 대응 전략을 마련해야 할 것이다.</text>
+  </g>
+  
+  <!-- 참고자료 -->
+  
+  <text x="100" y="900" class="small-text">1. 재무부 공식 발표문</text>
+  
+  <text x="100" y="925" class="small-text">2. 무역부 보고서</text>
+  
+  <text x="100" y="950" class="small-text">3. 경제 전문가 의견</text>
+  
+</svg>

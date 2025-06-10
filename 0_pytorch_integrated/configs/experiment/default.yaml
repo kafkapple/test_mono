@@ -1,0 +1,22 @@
+# @package _global_
+
+# 기본 실험 설정
+experiment:
+  name: default
+  description: "기본 실험 설정"
+  seed: 42
+  
+# 모델 설정
+model:
+  type: vae  # 기본 모델 타입 (vae, vqvae, clip, flamingo)
+  
+# 데이터셋 설정
+dataset:
+  name: mnist  # 기본 데이터셋 (mnist, cifar10, imdb, flickr)
+  root: data
+  
+# 결과 저장 설정
+results:
+  save_dir: results
+  experiment_name: ${experiment.name}
+  timestamp: true  # 결과 폴더에 타임스탬프 추가

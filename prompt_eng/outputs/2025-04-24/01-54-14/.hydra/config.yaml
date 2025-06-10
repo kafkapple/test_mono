@@ -1,0 +1,24 @@
+keyword: 대전시 부동산 정책 변화
+model:
+  name: gpt-4o-mini-search-preview
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 0.9
+  top_k: 20
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 7
+  language: ko
+  safe_search: true
+  search_context_size: medium
+  user_location: 대전, 대한민국
+  include_citations: true
+prompt:
+  file: prompt.yaml
+  system_message: 한글로 대답해주세요. 정보가 부족할 경우 웹 검색을 활용하세요. 한국에 관련된 최신 정보를 검색하세요.

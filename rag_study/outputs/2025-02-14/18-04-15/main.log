@@ -1,0 +1,5 @@
+[2025-02-14 18:04:17,697][root][INFO] - 货肺款 氦磐 DB 积己 吝...
+[2025-02-14 18:04:18,798][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+[2025-02-14 18:04:20,040][faiss.loader][INFO] - Loading faiss with AVX2 support.
+[2025-02-14 18:04:20,064][faiss.loader][INFO] - Successfully loaded faiss with AVX2 support.
+[2025-02-14 18:04:20,072][faiss][INFO] - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyTorch 실험 플레이그라운드</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <header>
+        <h1>PyTorch 실험 플레이그라운드</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">홈</a></li>
+                <li><a href="{{ url_for('models') }}">모델</a></li>
+                <li><a href="{{ url_for('datasets') }}">데이터셋</a></li>
+                <li><a href="{{ url_for('experiments') }}">실험</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>PyTorch로 딥러닝 모델 실험하기</h2>
+            <p>다양한 모델 아키텍처와 데이터셋을 탐색하고 실험해보세요.</p>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>모델</h3>
+                <p>AutoEncoder, VAE, VQ-VAE, CLIP, Flamingo 등 다양한 모델 아키텍처를 탐색하세요.</p>
+                <a href="{{ url_for('models') }}" class="btn">모델 보기</a>
+            </div>
+            <div class="feature-card">
+                <h3>데이터셋</h3>
+                <p>이미지, 텍스트, 멀티모달 데이터셋을 사용하여 모델을 학습하고 평가해보세요.</p>
+                <a href="{{ url_for('datasets') }}" class="btn">데이터셋 보기</a>
+            </div>
+            <div class="feature-card">
+                <h3>실험</h3>
+                <p>모델 학습, 평가, 시각화 등 다양한 실험을 수행하고 결과를 확인해보세요.</p>
+                <a href="{{ url_for('experiments') }}" class="btn">실험 시작</a>
+            </div>
+        </section>
+
+        <section class="quick-start">
+            <h2>빠른 시작</h2>
+            <div class="code-block">
+                <pre><code>
+# 예제 스크립트 실행
+python examples/run_vae_mnist.py
+python examples/run_vqvae_cifar10.py
+python examples/run_clip_flickr.py
+
+# 웹앱 실행
+python src/webapp/app.py
+                </code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 PyTorch 실험 플레이그라운드</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

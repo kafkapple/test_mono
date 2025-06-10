@@ -1,0 +1,478 @@
+2025-04-22 11:45:12,484 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = vertex_ai
+2025-04-22 11:45:12,715 - WARNING - No project ID could be determined. Consider running `gcloud config set project` or setting the GOOGLE_CLOUD_PROJECT environment variable
+2025-04-22 11:45:23,443 - INFO - HTTP Request: POST https://us-central1-aiplatform.googleapis.com/v1/projects/kafkapple/locations/us-central1/publishers/google/models/gemini-1.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-04-22 11:45:23,446 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:45:23,449 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:45:23,449 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:45:23,452 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:45:23,464 - INFO - Model: gemini-1.5-flash, Response: ´Ù¾çÇÑ LLM(Large Language Model)À» ÅëÇÕÇÏ´Â ÆÄÀÌ½ã ¸ğµâÀ» ±¸ÇöÇÏ´Â °ÍÀº »ó´çÈ÷ º¹ÀâÇÑ ÀÛ¾÷ÀÔ´Ï´Ù. °¢ ¸ğµ¨ÀÇ API°¡ ´Ù¸£°í, ¿äÃ» ¹æ½Ä, ÀÀ´ä Çü½Ä, ±×¸®°í ÇÊ¿äÇÑ ÀÎÁõ ¹æ½Äµµ Á¦°¢°¢ÀÌ±â ¶§¹®ÀÔ´Ï´Ù.  ÇÏÁö¸¸, Ãß»óÀûÀÎ ·¹ÀÌ¾î¸¦ ¸¸µé¾î °¢ ¸ğµ¨ÀÇ Æ¯¼ºÀ» Ä¸½¶È­ÇÏ¸é °ü¸® °¡´ÉÇÑ ÄÚµå¸¦ ÀÛ¼ºÇÒ ¼ö ÀÖ½À´Ï´Ù.
+
+¾Æ·¡´Â °³³äÀûÀÎ ±¸Çö ¿¹½ÃÀÔ´Ï´Ù. ½ÇÁ¦ ±¸Çö¿¡´Â °¢ ¸ğµ¨ÀÇ API ¹®¼­¸¦ ÂüÁ¶ÇÏ°í ÇÊ¿äÇÑ ¶óÀÌºê·¯¸®¸¦ ¼³Ä¡ÇØ¾ß ÇÕ´Ï´Ù.  ¶ÇÇÑ ¿¡·¯ ÇÚµé¸µ, ¼Óµµ Çâ»ó, ºñ¿ë ÃÖÀûÈ­ µî Ãß°¡ÀûÀÎ ÀÛ¾÷ÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
+```python
+import openai
+import google.generative_language as glm  # Google Gemini¸¦ »ç¿ëÇÏ·Á¸é ÀûÀıÇÑ ¶óÀÌºê·¯¸® ¼³Ä¡ ÇÊ¿ä
+# Anthropic, Ollama µîÀÇ ¶óÀÌºê·¯¸® import Ãß°¡
+
+class LLMClient:
+    def __init__(self, model_name, api_key=None, **kwargs):
+        self.model_name = model_name
+        self.api_key = api_key
+        self.model_config = self._get_model_config(model_name, **kwargs)
+
+        if self.model_config is None:
+            raise ValueError(f"Unsupported model: {model_name}")
+
+        self._initialize_model()
+
+
+    def _get_model_config(self, model_name, **kwargs):
+        # °¢ ¸ğµ¨¿¡ ´ëÇÑ ¼³Á¤À» ¹İÈ¯ÇÕ´Ï´Ù.  API Å°, ¿£µåÆ÷ÀÎÆ® µîÀ» Æ÷ÇÔÇÕ´Ï´Ù.
+        if model_name == "openai":
+            return {
+                "api_key": self.api_key, # openai.api_key = "YOUR_API_KEY"  Ã³·³ ¼³Á¤ÇØ¾ß ÇÒ ¼ö ÀÖ½À´Ï´Ù.
+                "engine": kwargs.get("engine", "text-davinci-003"), # ¶Ç´Â ´Ù¸¥ ¸ğµ¨ ÀÌ¸§
+            }
+        elif model_name == "google-gemini":
+            return {  # Google Gemini API ¼³Á¤
+                 "api_key": self.api_key,
+                 "model": kwargs.get("model", "models/gemini-pro")
+            }
+        elif model_name == "anthropic":
+            return { # Anthropic API ¼³Á¤
+                "api_key": self.api_key,
+                "model": kwargs.get("model", "claude-v2")
+            }
+        elif model_name == "ollama":
+            return { # Ollama API ¼³Á¤
+                "api_key": self.api_key,
+                "address": kwargs.get("address", "localhost:11434"),
+                "model": kwargs.get("model", "llama-2-7b-chat")
+            }
+        else:
+            return None
+
+    def _initialize_model(self):
+        if self.model_name == "openai":
+            openai.api_key = self.model_config["api_key"]
+        # ´Ù¸¥ ¸ğµ¨µé¿¡ ´ëÇÑ ÃÊ±âÈ­ ÄÚµå Ãß°¡ (Google Gemini, Anthropic, Ollama µî)
+        elif self.model_name == "google-gemini":
+            # Google Gemini ÃÊ±âÈ­ ÄÚµå
+            pass # ÀûÀıÇÑ ¶óÀÌºê·¯¸® ÃÊ±âÈ­ ÇÊ¿ä
+        elif self.model_name == "anthropic":
+            # Anthropic ÃÊ±âÈ­ ÄÚµå
+            pass # ÀûÀıÇÑ ¶óÀÌºê·¯¸® ÃÊ±âÈ­ ÇÊ¿ä
+        elif self.model_name == "ollama":
+             # Ollama ÃÊ±âÈ­ ÄÚµå
+             pass # ÀûÀıÇÑ ¶óÀÌºê·¯¸® ÃÊ±âÈ­ ÇÊ¿ä
+
+
+
+    def generate_text(self, prompt, **kwargs):
+        if self.model_name == "openai":
+            response = openai.Completion.create(
+                engine=self.model_config["engine"],
+                prompt=prompt,
+                max_tokens=kwargs.get("max_tokens", 100),
+                # ´Ù¸¥ ¸Å°³º¯¼ö Ãß°¡
+            )
+            return response.choices[0].text.strip()
+        # ´Ù¸¥ ¸ğµ¨µé¿¡ ´ëÇÑ generate_text ±¸Çö Ãß°¡
+        elif self.model_name == "google-gemini":
+            # Google Gemini API È£Ãâ
+            pass # Google Gemini API »ç¿ëÇÏ¿© ÅØ½ºÆ® »ı¼º
+        elif self.model_name == "anthropic":
+            # Anthropic API È£Ãâ
+            pass # Anthropic API »ç¿ëÇÏ¿© ÅØ½ºÆ® »ı¼º
+        elif self.model_name == "ollama":
+            # Ollama API È£Ãâ
+            pass # Ollama API »ç¿ëÇÏ¿© ÅØ½ºÆ® »ı¼º
+        else:
+            raise ValueError(f"Unsupported model: {self.model_name}")
+
+
+
+# »ç¿ë ¿¹½Ã
+client_openai = LLMClient("openai", api_key="YOUR_OPENAI_API_KEY")
+response_openai = client_openai.generate_text("PythonÀ¸·Î Çï·Î¿ì ¿ùµå¸¦ Ãâ·ÂÇÏ´Â ÄÚµå¸¦ ÀÛ¼ºÇØÁà")
+print(f"OpenAI Response: {response_openai}")
+
+
+client_google = LLMClient("google-gemini", api_key="YOUR_GOOGLE_API_KEY") # Google Gemini API Å° ¼³Á¤
+response_google = client_google.generate_text("PythonÀ¸·Î Çï·Î¿ì ¿ùµå¸¦ Ãâ·ÂÇÏ´Â ÄÚµå¸¦ ÀÛ¼ºÇØÁà")
+print(f"Google Gemini Response: {response_google}")
+
+# Anthropic, Ollama Å¬¶óÀÌ¾ğÆ® »ı¼º ¹× »ç¿ë ¿¹½Ã Ãß°¡
+```
+
+À§ ÄÚµå´Â ±âº»ÀûÀÎ ±¸Á¶¸¸ Á¦°øÇÏ¸ç, ½ÇÁ¦ µ¿ÀÛÀ» À§ÇØ¼­´Â °¢ ¸ğµ¨ÀÇ API¿¡ ¸Â´Â ÄÚµå¸¦ ÀÛ¼ºÇÏ°í,  ÀûÀıÇÑ ¿¡·¯ Ã³¸®,  ¸Å°³º¯¼ö Á¶Á¤ µîÀÇ Ãß°¡ ÀÛ¾÷ÀÌ ÇÊ¿äÇÕ´Ï´Ù.  Æ¯È÷ Google Gemini¿Í Anthropic, Ollama´Â  °¢°¢ ´Ù¸¥ ¶óÀÌºê·¯¸®¿Í API¸¦ »ç¿ëÇÏ¹Ç·Î, ÇØ´ç ¶óÀÌºê·¯¸®ÀÇ ¹®¼­¸¦ Âü°íÇÏ¿©  `_initialize_model`  ¹×  `generate_text` ÇÔ¼ö¸¦ ¿Ï¼ºÇØ¾ß ÇÕ´Ï´Ù.  ¶ÇÇÑ API Å°¸¦ ¾ÈÀüÇÏ°Ô °ü¸®ÇÏ´Â ¹æ¹ıµµ °í·ÁÇØ¾ß ÇÕ´Ï´Ù (È¯°æº¯¼ö »ç¿ë µî).  ±×¸®°í °¢ ¸ğµ¨ÀÇ Æ¯Â¡À» °í·ÁÇÑ ¸Å°³º¯¼ö Á¶Á¤µµ Áß¿äÇÕ´Ï´Ù.  ¿¹¸¦ µé¾î,  `max_tokens`  °°Àº ¸Å°³º¯¼ö´Â ¸ğµ¨¸¶´Ù ÀÇ¹Ì°¡ ´Ù¸¦ ¼ö ÀÖ½À´Ï´Ù.
+
+2025-04-22 11:46:21,846 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = vertex_ai
+2025-04-22 11:46:22,067 - WARNING - No project ID could be determined. Consider running `gcloud config set project` or setting the GOOGLE_CLOUD_PROJECT environment variable
+2025-04-22 11:46:33,626 - INFO - HTTP Request: POST https://us-central1-aiplatform.googleapis.com/v1/projects/kafkapple/locations/us-central1/publishers/google/models/gemini-1.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-04-22 11:46:33,629 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:46:33,631 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:46:33,631 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:46:33,633 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:46:33,648 - INFO - Model: gemini-1.5-flash, Response: ¸ğµç LLMÀ» ÅëÇÕÇÏ´Â ´ÜÀÏ Python ¸ğµâÀ» ¸¸µå´Â °ÍÀº »ó´çÈ÷ ¾î·Á¿î ÀÛ¾÷ÀÔ´Ï´Ù. °¢ ¸ğµ¨Àº °íÀ¯ÇÑ API, Çü½Ä ¹× ¿ä±¸ »çÇ×À» °¡Áö°í ÀÖ±â ¶§¹®ÀÔ´Ï´Ù.  ÇÏÁö¸¸, °¢ ¸ğµ¨°ú »óÈ£ ÀÛ¿ëÇÏ´Â ¹æ¹ıÀ» Ãß»óÈ­ÇÏ´Â Å¬·¡½º¸¦ ¸¸µé¾î¼­ ¾î´À Á¤µµ ÅëÇÕµÈ ÀÎÅÍÆäÀÌ½º¸¦ Á¦°øÇÏ´Â ¸ğµâÀ» ¸¸µé ¼ö ÀÖ½À´Ï´Ù.
+
+´ÙÀ½Àº °³³ä Áõ¸í ¿¹½ÃÀÌ¸ç, ½ÇÁ¦ ±¸Çö¿¡´Â °¢ APIÀÇ Æ¯¼ºÀ» °í·ÁÇÑ »ó´çÇÑ Ãß°¡ ÀÛ¾÷ÀÌ ÇÊ¿äÇÕ´Ï´Ù.  Æ¯È÷ ÀÎÁõ ¹× rate limitingÀ» Ã³¸®ÇØ¾ß ÇÕ´Ï´Ù.
+
+```python
+import openai
+import google.generative_language as glm  # Google GeminiÀÇ Python ¶óÀÌºê·¯¸® (¾ÆÁ÷ °ø°³µÇÁö ¾Ê¾ÒÀ» ¼ö ÀÖ½À´Ï´Ù)
+import anthropic
+# Ollama¿Í Perplexity´Â API¸¦ Á÷Á¢ Á¦°øÇÏÁö ¾ÊÀ¸¹Ç·Î, º°µµÀÇ ¹æ¹ıÀ¸·Î Á¢±ÙÇØ¾ß ÇÕ´Ï´Ù.
+# ¿¹½Ã·Î, OllamaÀÇ °æ¿ì CLI¸¦ ÅëÇØ ¸í·É¾î¸¦ Àü´ŞÇÏ´Â ¹æ½ÄÀ» »ı°¢ÇØ º¼ ¼ö ÀÖ½À´Ï´Ù.
+import subprocess  # Ollama CLI¿Í »óÈ£ÀÛ¿ëÀ» À§ÇØ
+
+
+class LLMAccessor:
+    def __init__(self, api_keys):
+        self.api_keys = api_keys
+        self.models = {
+            "openai": self._openai_access,
+            "google": self._google_access, # Gemini
+            "anthropic": self._anthropic_access,
+            "ollama": self._ollama_access,
+            "perplexity": self._perplexity_access, #Perplexity API Á¢±Ù ¹æ½Ä ±¸Çö
+        }
+
+
+    def _openai_access(self, prompt, model="text-davinci-003", max_tokens=150, temperature=0.7):
+        openai.api_key = self.api_keys["openai"]
+        response = openai.Completion.create(
+            engine=model,
+            prompt=prompt,
+            max_tokens=max_tokens,
+            n=1,
+            stop=None,
+            temperature=temperature,
+        )
+        return response.choices[0].text.strip()
+
+    def _google_access(self, prompt, model="models/text-bison-001"): # Gemini ¸ğµ¨ ÀÌ¸§ È®ÀÎ ÇÊ¿ä
+        glm.configure(api_key=self.api_keys["google"]) # Google GeminiÀÇ ¼³Á¤ (¶óÀÌºê·¯¸® ¼³Ä¡ ¹× API Å° ¼³Á¤ ÇÊ¿ä)
+        try:
+            response = glm.generate_text(prompt=prompt, model=model)
+            return response.text
+        except Exception as e:
+            return f"Google Gemini Error: {e}"
+
+
+    def _anthropic_access(self, prompt, model="claude-v2"):
+        anthropic.api_key = self.api_keys["anthropic"]
+        response = anthropic.Completion.create(prompt=prompt, model=model)
+        return response.completion
+
+    def _ollama_access(self, prompt):
+        try:
+            # Ollama CLI¸¦ »ç¿ëÇÏ¿© ÀÀ´äÀ» ¹Ş´Â ºÎºĞ.  ½ÇÁ¦ ±¸ÇöÀº OllamaÀÇ CLI ¸í·É¾î¿¡ µû¶ó ´Ş¶óÁı´Ï´Ù.
+            result = subprocess.run(["ollama", "run", prompt], capture_output=True, text=True, check=True)
+            return result.stdout.strip()
+        except subprocess.CalledProcessError as e:
+            return f"Ollama Error: {e}"
+        except FileNotFoundError:
+            return "Ollama CLI not found. Please ensure Ollama is installed and configured."
+
+    def _perplexity_access(self, prompt): # Perplexity API Á¢±Ù ¹æ½Ä ±¸Çö ÇÊ¿ä
+        # Perplexity API¸¦ »ç¿ëÇÏ´Â ÄÚµå ÀÛ¼º (API Å° ¹× ¿äÃ» ¹æ½Ä È®ÀÎ ÇÊ¿ä)
+        # ¿¹½Ã :  requests ¶óÀÌºê·¯¸®¸¦ ÀÌ¿ëÇÏ¿© API È£ÃâÀ» ¼öÇà
+        # ...
+        pass  #  ±¸Çö ÇÊ¿ä
+
+
+    def generate_text(self, provider, prompt, **kwargs):
+        if provider in self.models:
+            return self.models[provider](prompt, **kwargs)
+        else:
+            return f"Unsupported provider: {provider}"
+
+
+# »ç¿ë ¿¹½Ã
+api_keys = {
+    "openai": "YOUR_OPENAI_API_KEY",
+    "google": "YOUR_GOOGLE_API_KEY",
+    "anthropic": "YOUR_ANTHROPIC_API_KEY",
+}
+
+accessor = LLMAccessor(api_keys)
+
+openai_response = accessor.generate_text("openai", "Write a short story about a cat.")
+print("OpenAI:", openai_response)
+
+# Google Gemini (API Key ¼³Á¤ ¹× ¶óÀÌºê·¯¸® ¼³Ä¡ ÈÄ ½ÇÇà)
+#google_response = accessor.generate_text("google", "Write a short story about a cat.")
+#print("Google Gemini:", google_response)
+
+
+anthropic_response = accessor.generate_text("anthropic", "Write a short story about a cat.")
+print("Anthropic:", anthropic_response)
+
+
+ollama_response = accessor.generate_text("ollama", "Write a short story about a cat.")
+print("Ollama:", ollama_response)
+
+
+# Perplexity (API Å° ¼³Á¤ ¹× ¶óÀÌºê·¯¸®/ÄÚµå ±¸Çö ÈÄ ½ÇÇà)
+#perplexity_response = accessor.generate_text("perplexity", "Write a short story about a cat.")
+#print("Perplexity:", perplexity_response)
+
+```
+
+**Áß¿ä °í·Á »çÇ×:**
+
+* **API Å° °ü¸®:**  API Å°¸¦ ¾ÈÀüÇÏ°Ô °ü¸®ÇÏ´Â ¹æ¹ıÀ» °í·ÁÇØ¾ß ÇÕ´Ï´Ù (È¯°æ º¯¼ö »ç¿ë ±ÇÀå).
+* **¿¡·¯ Ã³¸®:**  °¢ API È£Ãâ¿¡¼­ ¹ß»ıÇÒ ¼ö ÀÖ´Â ¿¡·¯¸¦ ÀûÀıÇÏ°Ô Ã³¸®ÇØ¾ß ÇÕ´Ï´Ù.
+* **¼Óµµ Á¦ÇÑ:**  °¢ LLM Á¦°ø¾÷Ã¼ÀÇ API ¼Óµµ Á¦ÇÑÀ» °í·ÁÇÏ¿© ¿äÃ»À» Á¦¾îÇØ¾ß ÇÕ´Ï´Ù.  ³Ê¹« ¸¹Àº ¿äÃ»À» º¸³»¸é °èÁ¤ÀÌ Á¤ÁöµÉ ¼ö ÀÖ½À´Ï´Ù.
+* **¸ğµ¨ ¼±ÅÃ:**  °¢ LLM Á¦°ø¾÷Ã¼´Â ¿©·¯ ¸ğµ¨À» Á¦°øÇÏ¹Ç·Î, »ç¿ëÀÚ¿¡°Ô ¸ğµ¨ ¼±ÅÃ ±â´ÉÀ» Á¦°øÇÏ´Â °ÍÀÌ ÁÁ½À´Ï´Ù.
+* **Ollama ¹× Perplexity ÅëÇÕ:**  Ollama¿Í Perplexity´Â Á÷Á¢ÀûÀÎ API¸¦ Á¦°øÇÏÁö ¾ÊÀ¸¹Ç·Î, CLI ¶Ç´Â ´Ù¸¥ ¹æ½ÄÀ¸·Î »óÈ£ÀÛ¿ëÇÏ´Â ¹æ¹ıÀ» ±¸ÇöÇØ¾ß ÇÕ´Ï´Ù.  ÀÌ´Â »ó´çÇÑ Ãß°¡ ÀÛ¾÷À» ÇÊ¿ä·Î ÇÕ´Ï´Ù.
+* **¶óÀÌºê·¯¸® ¼³Ä¡:**  °¢ LLM°ú »óÈ£ÀÛ¿ëÇÏ´Â µ¥ ÇÊ¿äÇÑ Python ¶óÀÌºê·¯¸®¸¦ ¼³Ä¡ÇØ¾ß ÇÕ´Ï´Ù (¿¹: `openai`, `google-generative-language`, `anthropic`). Google GeminiÀÇ °æ¿ì, ¾ÆÁ÷ °ø½Ä Python ¶óÀÌºê·¯¸®°¡ ¾ø´Â °æ¿ì°¡ ¸¹À¸¹Ç·Î, »ç¿ë °¡´ÉÇÑ ¶óÀÌºê·¯¸® È®ÀÎÀÌ ÇÊ¿äÇÕ´Ï´Ù.
+
+
+ÀÌ ÄÚµå´Â ½ÃÀÛÁ¡ÀÏ »ÓÀÌ¸ç, ½ÇÁ¦ µ¿ÀÛÇÏ´Â ¸ğµâÀ» ¸¸µé·Á¸é »ó´çÇÑ ³ë·ÂÀÌ ÇÊ¿äÇÕ´Ï´Ù. °¢ APIÀÇ ¹®¼­¸¦ ²Ä²ÄÈ÷ È®ÀÎÇÏ°í, ¿¡·¯ Ã³¸® ¹× ¼Óµµ Á¦ÇÑÀ» °í·ÁÇÏ¿© ¾ÈÁ¤ÀûÀÎ ¸ğµâÀ» ±¸ÃàÇØ¾ß ÇÕ´Ï´Ù.  Æ¯È÷ Ollama¿Í Perplexity´Â Á÷Á¢ÀûÀÎ API°¡ ¾øÀ¸¹Ç·Î, ÀÌµéÀÇ ÅëÇÕÀÌ °¡Àå ¾î·Á¿î ºÎºĞÀÏ °ÍÀÔ´Ï´Ù.
+
+2025-04-22 11:46:33,648 - INFO - 
+LiteLLM completion() model= claude-3-haiku; provider = anthropic
+2025-04-22 11:46:33,906 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 404 Not Found"
+2025-04-22 11:49:04,668 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = vertex_ai
+2025-04-22 11:49:04,907 - WARNING - No project ID could be determined. Consider running `gcloud config set project` or setting the GOOGLE_CLOUD_PROJECT environment variable
+2025-04-22 11:49:15,846 - INFO - HTTP Request: POST https://us-central1-aiplatform.googleapis.com/v1/projects/kafkapple/locations/us-central1/publishers/google/models/gemini-1.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-04-22 11:49:15,849 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:49:15,850 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:49:15,850 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:49:15,852 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:49:15,865 - INFO - Model: gemini-1.5-flash, Response: ë‹¤ì–‘í•œ ëŒ€ê·œëª¨ ì–¸ì–´ ëª¨ë¸(LLM)ë“¤ì„ í•˜ë‚˜ì˜ íŒŒì´ì¬ ëª¨ë“ˆë¡œ í†µí•©í•˜ëŠ” ê²ƒì€ ìƒë‹¹íˆ ë³µì¡í•œ ì‘ì—…ì…ë‹ˆë‹¤. ê° ëª¨ë¸ì˜ APIê°€ ë‹¤ë¥´ê³ , í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë„ ë‹¤ë¥´ê¸° ë•Œë¬¸ì…ë‹ˆë‹¤. í•˜ì§€ë§Œ, ê¸°ë³¸ì ì¸ êµ¬ì¡°ì™€ ì ‘ê·¼ ë°©ì‹ì„ ì œì‹œí•˜ì—¬ ëª¨ë“ˆì„ êµ¬í˜„í•˜ëŠ” ë° ë„ì›€ì„ ë“œë¦´ ìˆ˜ ìˆìŠµë‹ˆë‹¤.  ì´ ì½”ë“œëŠ” ì™„ë²½í•˜ê²Œ ì‘ë™í•˜ëŠ” ëª¨ë“ˆì´ ì•„ë‹ˆë©°, ê° ëª¨ë¸ì˜ APIì— ë§ì¶° ìˆ˜ì •í•´ì•¼ í•©ë‹ˆë‹¤.  ê° ëª¨ë¸ì˜ API í‚¤ë¥¼ í™˜ê²½ ë³€ìˆ˜ë¡œ ì„¤ì •í•˜ëŠ” ê²ƒì„ ê¶Œì¥í•©ë‹ˆë‹¤.
+
+
+```python
+import os
+import openai
+import anthropic
+from google.generative_language import Client
+# Ollama ë° Perplexity APIë¥¼ ìœ„í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì¶”ê°€ (ì„¤ì¹˜ ë° ì‚¬ìš©ë²• í™•ì¸ í•„ìš”)
+# ì˜ˆì‹œ: pip install ollama-client perplexity-client
+
+class LLMClient:
+    def __init__(self):
+        # API í‚¤ ì„¤ì • (í™˜ê²½ ë³€ìˆ˜ì—ì„œ ê°€ì ¸ì˜¤ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤.)
+        self.openai_api_key = os.getenv("OPENAI_API_KEY")
+        self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+        self.google_api_key = os.getenv("GOOGLE_API_KEY")  # Google Generative Language API í‚¤
+        # Ollama ë° Perplexity API í‚¤ ì„¤ì • (í•„ìš”ì— ë”°ë¼ ì¶”ê°€)
+        self.ollama_api_key = os.getenv("OLLAMA_API_KEY")
+        self.perplexity_api_key = os.getenv("PERPLEXITY_API_KEY")
+
+        # ëª¨ë¸ ì´ˆê¸°í™” (í•„ìš”í•œ ê²½ìš°)
+        if self.openai_api_key:
+            openai.api_key = self.openai_api_key
+        if self.anthropic_api_key:
+            anthropic.api_key = self.anthropic_api_key
+        if self.google_api_key:
+            self.google_client = Client(api_key=self.google_api_key)  # Google Client ì´ˆê¸°í™”
+
+
+    def generate_text(self, prompt, model="openai_text-davinci-003"): # ëª¨ë¸ ì„ íƒ ì¶”ê°€
+        """
+        ì§€ì •ëœ ëª¨ë¸ì„ ì‚¬ìš©í•˜ì—¬ í…ìŠ¤íŠ¸ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+        """
+        try:
+            if model == "openai_text-davinci-003":  # ì˜ˆì‹œ: OpenAI ëª¨ë¸
+                response = openai.Completion.create(
+                    engine="text-davinci-003",  # ë˜ëŠ” ë‹¤ë¥¸ OpenAI ëª¨ë¸
+                    prompt=prompt,
+                    max_tokens=150,
+                    n=1,
+                    stop=None,
+                    temperature=0.7,
+                )
+                return response.choices[0].text.strip()
+            elif model == "anthropic_claude": # ì˜ˆì‹œ: Anthropic ëª¨ë¸
+                response = anthropic.Completion.create(
+                    prompt=prompt,
+                    model="claude-v1", # ë˜ëŠ” ë‹¤ë¥¸ Anthropic ëª¨ë¸
+                    max_tokens_to_sample=150
+                )
+                return response.completion
+            elif model == "google_gemini": # ì˜ˆì‹œ: Google Gemini ëª¨ë¸ (API ì‚¬ìš©ë²• í™•ì¸ í•„ìš”)
+                response = self.google_client.generate_text(prompt=prompt, model="...") # ëª¨ë¸ ì§€ì •
+                return response.text
+            elif model == "ollama":  # Ollama ëª¨ë¸ (API ì‚¬ìš©ë²•ì— ë”°ë¼ êµ¬í˜„)
+              # Ollama API í˜¸ì¶œ êµ¬í˜„
+              pass
+            elif model == "perplexity":  # Perplexity ëª¨ë¸ (API ì‚¬ìš©ë²•ì— ë”°ë¼ êµ¬í˜„)
+              # Perplexity API í˜¸ì¶œ êµ¬í˜„
+              pass
+            else:
+                return "ì§€ì›ë˜ì§€ ì•ŠëŠ” ëª¨ë¸ì…ë‹ˆë‹¤."
+        except Exception as e:
+            return f"ì˜¤ë¥˜ ë°œìƒ: {e}"
+
+
+# ì‚¬ìš© ì˜ˆì‹œ
+client = LLMClient()
+prompt = "íŒŒì´ì¬ìœ¼ë¡œ ê°„ë‹¨í•œ ë§ì…ˆ í”„ë¡œê·¸ë¨ì„ ì‘ì„±í•´ì¤˜"
+
+openai_response = client.generate_text(prompt, model="openai_text-davinci-003")
+print("OpenAI:", openai_response)
+
+# Anthropic, Google Gemini, Ollama, Perplexity ëª¨ë¸ì„ ì‚¬ìš©í•˜ë ¤ë©´ model ë§¤ê°œë³€ìˆ˜ë¥¼ ë³€ê²½í•˜ê³ , 
+# í•´ë‹¹ API í‚¤ë¥¼ ì„¤ì •í•˜ê³ , API í˜¸ì¶œ ë¶€ë¶„ì„ êµ¬í˜„í•´ì•¼ í•©ë‹ˆë‹¤.
+
+anthropic_response = client.generate_text(prompt, model="anthropic_claude")
+print("Anthropic:", anthropic_response)
+
+# ... Google Gemini, Ollama, Perplexityì— ëŒ€í•œ ì½”ë“œ ì¶”ê°€ ...
+
+```
+
+**ì¤‘ìš” ê³ ë ¤ ì‚¬í•­:**
+
+* **API í‚¤ ê´€ë¦¬:**  API í‚¤ë¥¼ ì½”ë“œì— ì§ì ‘ ë„£ëŠ” ê²ƒì€ ë³´ì•ˆìƒ ë§¤ìš° ìœ„í—˜í•©ë‹ˆë‹¤. í™˜ê²½ ë³€ìˆ˜ë¥¼ ì‚¬ìš©í•˜ê±°ë‚˜,  í‚¤ ê´€ë¦¬ ì‹œìŠ¤í…œì„ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ìŠµë‹ˆë‹¤.
+* **ì—ëŸ¬ í•¸ë“¤ë§:**  ëª¨ë“  API í˜¸ì¶œì€ ì—ëŸ¬ë¥¼ ë°œìƒì‹œí‚¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.  `try...except` ë¸”ë¡ì„ ì‚¬ìš©í•˜ì—¬ ì—ëŸ¬ë¥¼ ì²˜ë¦¬í•˜ê³ ,  ìœ ìš©í•œ ì—ëŸ¬ ë©”ì‹œì§€ë¥¼ ì‚¬ìš©ìì—ê²Œ ì œê³µí•´ì•¼ í•©ë‹ˆë‹¤.
+* **ëª¨ë¸ ì„ íƒ:** ì‚¬ìš©ìê°€ ë‹¤ì–‘í•œ ëª¨ë¸ ì¤‘ì—ì„œ ì„ íƒí•  ìˆ˜ ìˆë„ë¡ ì¸í„°í˜ì´ìŠ¤ë¥¼ ì œê³µí•´ì•¼ í•©ë‹ˆë‹¤.
+* **ë¹„ìš©:**  ê° LLM APIëŠ” ì‚¬ìš©ëŸ‰ì— ë”°ë¼ ë¹„ìš©ì´ ë°œìƒí•©ë‹ˆë‹¤.  ë¹„ìš©ì„ ê´€ë¦¬í•˜ê³ ,  ë¶ˆí•„ìš”í•œ ë¹„ìš©ì„ ë°©ì§€í•˜ëŠ” ë©”ì»¤ë‹ˆì¦˜ì´ í•„ìš”í•©ë‹ˆë‹¤.
+* **ë¼ì´ë¸ŒëŸ¬ë¦¬ ì„¤ì¹˜:**  ê° LLM APIë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œëŠ” í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì„¤ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤. (ì˜ˆ: `openai`, `anthropic`, `google-generative-language` ë“±) Ollamaì™€ Perplexityì˜ ê²½ìš°, ê° í”Œë«í¼ì˜ API í´ë¼ì´ì–¸íŠ¸ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì„¤ì¹˜í•˜ê³  ì‚¬ìš©ë²•ì„ í™•ì¸í•´ì•¼ í•©ë‹ˆë‹¤.  `pip install` ëª…ë ¹ì–´ë¥¼ ì‚¬ìš©í•˜ì—¬ ì„¤ì¹˜í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+* **API ì œí•œ:** ê° LLM APIëŠ” ìš”ì²­ íšŸìˆ˜ë‚˜ í† í° ìˆ˜ì— ì œí•œì´ ìˆì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ì´ëŸ¬í•œ ì œí•œì„ ê³ ë ¤í•˜ì—¬ ì½”ë“œë¥¼ ì‘ì„±í•´ì•¼ í•©ë‹ˆë‹¤.
+
+
+ì´ ì˜ˆì‹œëŠ” ì‹œì‘ì ì¼ ë¿ì´ë©°, ì‹¤ì œ êµ¬í˜„ì€ ê° LLM APIì˜ ë¬¸ì„œë¥¼ ì°¸ì¡°í•˜ì—¬ ê° APIì— ë§ê²Œ ìˆ˜ì •í•´ì•¼ í•©ë‹ˆë‹¤.  íŠ¹íˆ Ollamaì™€ PerplexityëŠ” API ì‚¬ìš©ë°©ë²•ì— ë”°ë¼ ì½”ë“œê°€ í¬ê²Œ ë‹¬ë¼ì§ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤. ê° í”Œë«í¼ì˜ ë¬¸ì„œë¥¼ ì£¼ì˜ ê¹Šê²Œ í™•ì¸í•˜ì‹œê¸° ë°”ëë‹ˆë‹¤.
+2025-04-22 11:49:15,866 - INFO - 
+LiteLLM completion() model= claude-3-haiku-20240307; provider = anthropic
+2025-04-22 11:49:21,178 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2025-04-22 11:49:21,179 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:49:21,180 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 11:49:21,180 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 11:49:21,183 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 11:49:21,185 - INFO - Model: anthropic/claude-3-haiku-20240307, Response: ë‹¤ì–‘í•œ AI ëª¨ë¸ë“¤ì„ í†µí•©ì ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” íŒŒì´ì¬ ëª¨ë“ˆì„ êµ¬í˜„í•˜ë ¤ë©´ ë‹¤ìŒê³¼ ê°™ì€ ë‹¨ê³„ë¥¼ ê±°ì¹  ìˆ˜ ìˆìŠµë‹ˆë‹¤:
+
+1. **API í†µí•©**: ê° AI ëª¨ë¸ë“¤ì˜ APIë¥¼ ì¡°ì‚¬í•˜ê³  í†µí•©í•˜ëŠ” ì‘ì—…ì´ í•„ìš”í•©ë‹ˆë‹¤. ì´ë¥¼ ìœ„í•´ requestsë‚˜ urllibì™€ ê°™ì€ HTTP ìš”ì²­ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì´ìš©í•˜ì—¬ ê° ëª¨ë¸ì˜ API ì—”ë“œí¬ì¸íŠ¸ì— ìš”ì²­ì„ ë³´ë‚´ê³  ì‘ë‹µì„ ì²˜ë¦¬í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+2. **ë°ì´í„° í‘œì¤€í™”**: ê° ëª¨ë¸ì´ ì…ì¶œë ¥ ë°ì´í„° í˜•ì‹ì„ ë‹¤ë¥´ê²Œ ì‚¬ìš©í•  ìˆ˜ ìˆìœ¼ë¯€ë¡œ, ì´ë¥¼ í†µì¼í•  ìˆ˜ ìˆëŠ” ë°ì´í„° í‘œì¤€í™” ë°©ì‹ì„ êµ¬í˜„í•´ì•¼ í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ì…ë ¥ í…ìŠ¤íŠ¸ë¥¼ ë¦¬ìŠ¤íŠ¸ë‚˜ ë¬¸ìì—´ë¡œ ë°›ê³ , ì¶œë ¥ ê²°ê³¼ë¥¼ ì¼ê´€ëœ í˜•íƒœë¡œ ë°˜í™˜í•˜ë„ë¡ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+3. **ëª¨ë¸ ì„ íƒ ë° í˜¸ì¶œ**: ì‚¬ìš©ìê°€ ì›í•˜ëŠ” ëª¨ë¸ì„ ì„ íƒí•˜ê³  í˜¸ì¶œí•  ìˆ˜ ìˆë„ë¡ í•˜ëŠ” ì¸í„°í˜ì´ìŠ¤ë¥¼ ì œê³µí•´ì•¼ í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ `get_response()` ë©”ì„œë“œì™€ ê°™ì€ í•¨ìˆ˜ë¥¼ í†µí•´ ëª¨ë¸ì„ ì„ íƒí•˜ê³  ì…ë ¥ í…ìŠ¤íŠ¸ë¥¼ ì „ë‹¬í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+4. **ì—ëŸ¬ ì²˜ë¦¬**: ê° ëª¨ë¸ì˜ API í˜¸ì¶œ ê³¼ì •ì—ì„œ ë°œìƒí•  ìˆ˜ ìˆëŠ” ì—ëŸ¬ë¥¼ ì²˜ë¦¬í•˜ê³  ì‚¬ìš©ìì—ê²Œ ì ì ˆí•œ í”¼ë“œë°±ì„ ì œê³µí•´ì•¼ í•©ë‹ˆë‹¤.
+
+5. **ì„±ëŠ¥ ê³ ë ¤**: ë‹¤ìˆ˜ì˜ API í˜¸ì¶œë¡œ ì¸í•œ ì§€ì—° ì‹œê°„ì„ ì¤„ì´ê¸° ìœ„í•´ ìºì‹±, ë¹„ë™ê¸° ì²˜ë¦¬ ë“±ì˜ ê¸°ë²•ì„ í™œìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+6. **ë¬¸ì„œí™” ë° í…ŒìŠ¤íŠ¸**: ìµœì¢…ì ìœ¼ë¡œ ëª¨ë“ˆì˜ ì‚¬ìš©ë²•, ê¸°ëŠ¥, ì œí•œì‚¬í•­ ë“±ì„ ëª…í™•íˆ ë¬¸ì„œí™”í•˜ê³ , ë‹¤ì–‘í•œ í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ë¥¼ í†µí•´ ëª¨ë“ˆì˜ ì •ìƒ ë™ì‘ì„ ê²€ì¦í•´ì•¼ í•©ë‹ˆë‹¤.
+
+ì´ëŸ¬í•œ ë‹¨ê³„ë¥¼ ê±°ì³ ë‹¤ì–‘í•œ AI ëª¨ë¸ë“¤ì„ í†µí•©ì ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” íŒŒì´ì¬ ëª¨ë“ˆì„ êµ¬í˜„í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ë¬¼ë¡  ì‹¤ì œ êµ¬í˜„ ê³¼ì •ì—ì„œëŠ” ê° ëª¨ë¸ì˜ íŠ¹ì„±ê³¼ API ë¬¸ì„œë¥¼ ë©´ë°€íˆ ê²€í† í•˜ê³ , ìµœì ì˜ ì„¤ê³„ ë°©ì‹ì„ ì„ íƒí•´ì•¼ í•  ê²ƒì…ë‹ˆë‹¤.
+2025-04-22 11:49:21,186 - INFO - 
+LiteLLM completion() model= gpt-3.5-turbo; provider = openai
+2025-04-22 11:49:26,637 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 11:49:26,647 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:49:26,648 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 11:49:26,648 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 11:49:26,649 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 11:49:26,651 - INFO - Model: gpt-3.5-turbo, Response: íŒŒì´ì¬ì„ ì´ìš©í•˜ì—¬ ì´ëŸ¬í•œ ë‹¤ì–‘í•œ ë°©ì‹ì˜ ëª¨ë¸ì„ í†µí•©í•  ìˆ˜ ìˆëŠ” ëª¨ë“ˆì„ êµ¬í˜„í•˜ë ¤ë©´ ë‹¤ìŒê³¼ ê°™ì€ ì ˆì°¨ë¥¼ ë”°ë¥¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+1. í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì„¤ì¹˜: ë¨¼ì € í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì„¤ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´, Google Colabì—ì„œ ì‚¬ìš©ë˜ëŠ” ë°©ì‹ì¸ Google Geminië¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œëŠ” openai, transformers, torch ë“±ì˜ ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì„¤ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤.
+
+2. ê° ëª¨ë¸ì„ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜ ì‘ì„±: ê°ê°ì˜ ë°©ì‹ì„ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜ë¥¼ ì‘ì„±í•´ì•¼ í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´, perplexity ì ìˆ˜ë¥¼ ê³„ì‚°í•˜ëŠ” í•¨ìˆ˜, Google Geminiì„ ì´ìš©í•˜ì—¬ ë¬¸ì¥ ìƒì„±í•˜ëŠ” í•¨ìˆ˜, Anthropicsì„ ì´ìš©í•˜ì—¬ ì´ë¯¸ì§€ ë¶„ë¥˜í•˜ëŠ” í•¨ìˆ˜ ë“±ì„ ì‘ì„±í•´ì•¼ í•©ë‹ˆë‹¤.
+
+3. í•¨ìˆ˜ë¥¼ í†µí•©í•˜ëŠ” ëª¨ë“ˆ ì‘ì„±: ì´ëŸ¬í•œ ê° í•¨ìˆ˜ë“¤ì„ í•˜ë‚˜ì˜ ëª¨ë“ˆë¡œ í†µí•©í•˜ëŠ” í´ë˜ìŠ¤ë‚˜ í•¨ìˆ˜ë¥¼ ì‘ì„±í•´ì•¼ í•©ë‹ˆë‹¤. ì´ëŸ¬í•œ ë°©ì‹ì„ í†µí•´ ì‚¬ìš©ìëŠ” í•œ ëª¨ë“ˆì„ importí•˜ì—¬ ë‹¤ì–‘í•œ ë°©ì‹ì„ ì‰½ê²Œ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+4. í…ŒìŠ¤íŠ¸ ë° ë””ë²„ê¹…: ëª¨ë“ˆì„ ì‘ì„±í•œ í›„ì—ëŠ” ê° í•¨ìˆ˜ë“¤ì„ í…ŒìŠ¤íŠ¸í•˜ê³  ë””ë²„ê¹…ì„ í•´ì•¼ í•©ë‹ˆë‹¤. ì´ë¥¼ í†µí•´ ëª¨ë“ˆì˜ ì•ˆì •ì„±ê³¼ ì„±ëŠ¥ì„ í–¥ìƒì‹œí‚¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+5. ë¬¸ì„œí™”: ëª¨ë“ˆì„ ì‚¬ìš©í•˜ëŠ” ë°©ë²•ì„ ì‚¬ìš©ìê°€ ì‰½ê²Œ íŒŒì•…í•  ìˆ˜ ìˆë„ë¡ ë¬¸ì„œí™”ë¥¼ í•´ì•¼ í•©ë‹ˆë‹¤. ì´ë¥¼ í†µí•´ ë‹¤ë¥¸ ì‚¬ìš©ìë“¤ë„ ì‰½ê²Œ ëª¨ë“ˆì„ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+
+ì´ëŸ¬í•œ ê³¼ì •ì„ ê±°ì¹˜ë©´ ë‹¤ì–‘í•œ ë°©ì‹ì˜ ëª¨ë¸ì„ í†µí•©í•œ íŒŒì´ì¬ ëª¨ë“ˆì„ êµ¬í˜„í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+2025-04-22 11:49:26,652 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = vertex_ai
+2025-04-22 11:49:26,655 - INFO - 
+LiteLLM completion() model= claude-3-haiku-20240307; provider = anthropic
+2025-04-22 11:49:26,657 - INFO - 
+LiteLLM completion() model= gpt-3.5-turbo; provider = openai
+2025-04-22 11:49:30,295 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2025-04-22 11:49:30,297 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:49:30,297 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 11:49:30,297 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 11:49:30,299 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 11:49:30,394 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 11:49:30,397 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:49:30,398 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 11:49:30,398 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 11:49:30,399 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 11:49:32,915 - INFO - HTTP Request: POST https://us-central1-aiplatform.googleapis.com/v1/projects/kafkapple/locations/us-central1/publishers/google/models/gemini-1.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-04-22 11:49:32,917 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 11:49:32,918 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:49:32,918 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:49:32,919 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 11:49:32,921 - ERROR - Error processing response for model gemini-1.5-flash: 'tuple' object has no attribute 'choices'
+2025-04-22 11:49:32,922 - ERROR - Error processing response for model anthropic/claude-3-haiku-20240307: 'tuple' object has no attribute 'choices'
+2025-04-22 11:49:32,922 - ERROR - Error processing response for model gpt-3.5-turbo: 'tuple' object has no attribute 'choices'
+2025-04-22 12:03:17,974 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = vertex_ai
+2025-04-22 12:03:17,976 - INFO - 
+LiteLLM completion() model= sonar; provider = perplexity
+2025-04-22 12:03:17,977 - INFO - 
+LiteLLM completion() model= claude-3-haiku-20240307; provider = anthropic
+2025-04-22 12:03:17,980 - INFO - 
+LiteLLM completion() model= gpt-3.5-turbo; provider = openai
+2025-04-22 12:03:18,223 - WARNING - No project ID could be determined. Consider running `gcloud config set project` or setting the GOOGLE_CLOUD_PROJECT environment variable
+2025-04-22 12:03:23,181 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2025-04-22 12:03:23,184 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:03:23,185 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 12:03:23,185 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 12:03:23,186 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 12:03:24,329 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 12:03:24,339 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:03:24,340 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 12:03:24,340 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 12:03:24,341 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 12:03:26,425 - INFO - HTTP Request: POST https://us-central1-aiplatform.googleapis.com/v1/projects/kafkapple/locations/us-central1/publishers/google/models/gemini-1.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-04-22 12:03:26,427 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:03:26,427 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 12:03:26,428 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 12:03:26,429 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 12:03:27,848 - INFO - HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 12:03:27,849 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:03:27,850 - INFO - selected model name for cost calculation: perplexity/sonar
+2025-04-22 12:03:27,850 - INFO - selected model name for cost calculation: perplexity/sonar
+2025-04-22 12:03:27,851 - INFO - selected model name for cost calculation: perplexity/sonar
+2025-04-22 12:03:27,852 - WARNING - Unexpected response structure or error for model vertex_ai/gemini-1.5-flash: ('id', 'chatcmpl-ec9d7ade-0cf2-41f3-95ea-c79bbac491ae')
+2025-04-22 12:03:27,852 - WARNING - Unexpected response structure or error for model perplexity/sonar: ('created', 1745290997)
+2025-04-22 12:03:27,853 - WARNING - Unexpected response structure or error for model anthropic/claude-3-haiku-20240307: ('model', 'gemini-1.5-flash')
+2025-04-22 12:03:27,853 - WARNING - Unexpected response structure or error for model openai/gpt-3.5-turbo: ('object', 'chat.completion')
+2025-04-22 12:08:36,352 - ERROR - Error processing single model vertex_ai/gemini-1.5-flash: 'str' object has no attribute 'get'
+2025-04-22 12:08:36,355 - ERROR - Error processing single model perplexity/sonar: 'str' object has no attribute 'get'
+2025-04-22 12:08:36,358 - ERROR - Error processing single model anthropic/claude-3-haiku-20240307: 'str' object has no attribute 'get'
+2025-04-22 12:08:36,360 - ERROR - Error processing single model openai/gpt-3.5-turbo: 'str' object has no attribute 'get'
+2025-04-22 12:08:36,368 - INFO - 
+LiteLLM completion() model= gemini-1.5-flash; provider = vertex_ai
+2025-04-22 12:08:36,370 - INFO - 
+LiteLLM completion() model= sonar; provider = perplexity
+2025-04-22 12:08:36,371 - INFO - 
+LiteLLM completion() model= claude-3-haiku-20240307; provider = anthropic
+2025-04-22 12:08:36,374 - INFO - 
+LiteLLM completion() model= gpt-3.5-turbo; provider = openai
+2025-04-22 12:08:36,649 - WARNING - No project ID could be determined. Consider running `gcloud config set project` or setting the GOOGLE_CLOUD_PROJECT environment variable
+2025-04-22 12:08:40,281 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 12:08:40,292 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:08:40,293 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 12:08:40,293 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 12:08:40,294 - INFO - selected model name for cost calculation: openai/gpt-3.5-turbo-0125
+2025-04-22 12:08:42,455 - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2025-04-22 12:08:42,456 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:08:42,457 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 12:08:42,457 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 12:08:42,458 - INFO - selected model name for cost calculation: anthropic/claude-3-haiku-20240307
+2025-04-22 12:08:45,150 - INFO - HTTP Request: POST https://us-central1-aiplatform.googleapis.com/v1/projects/kafkapple/locations/us-central1/publishers/google/models/gemini-1.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-04-22 12:08:45,151 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:08:45,152 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 12:08:45,152 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 12:08:45,154 - INFO - selected model name for cost calculation: vertex_ai/gemini-1.5-flash
+2025-04-22 12:08:48,864 - INFO - HTTP Request: POST https://api.perplexity.ai/chat/completions "HTTP/1.1 200 OK"
+2025-04-22 12:08:48,865 - INFO - Wrapper: Completed Call, calling success_handler
+2025-04-22 12:08:48,866 - INFO - selected model name for cost calculation: perplexity/sonar
+2025-04-22 12:08:48,866 - INFO - selected model name for cost calculation: perplexity/sonar
+2025-04-22 12:08:48,867 - INFO - selected model name for cost calculation: perplexity/sonar
+2025-04-22 12:08:48,868 - WARNING - Unexpected response structure or error for model vertex_ai/gemini-1.5-flash: ('id', 'chatcmpl-37f02074-ee9a-4393-8962-14548adf8928')
+2025-04-22 12:08:48,868 - WARNING - Unexpected response structure or error for model perplexity/sonar: ('created', 1745291316)
+2025-04-22 12:08:48,869 - WARNING - Unexpected response structure or error for model anthropic/claude-3-haiku-20240307: ('model', 'gemini-1.5-flash')
+2025-04-22 12:08:48,869 - WARNING - Unexpected response structure or error for model openai/gpt-3.5-turbo: ('object', 'chat.completion')

@@ -1,0 +1,79 @@
+[2025-04-27 16:00:49,340][__main__][INFO] - 설정:
+keyword: 2023년 대전시 부동산 정책 개발계획 발표
+model:
+  name: gpt-4o-mini-search-preview
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 0.5
+  top_k: 5
+  frequency_penalty: 0.1
+  presence_penalty: 0.1
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 365
+  language: ko
+  safe_search: true
+  search_context_size: high
+  user_location: KR
+  include_citations: true
+prompt:
+  file: prompt_final.yaml
+  system_message: 한글로 대답해주세요. 웹 검색을 통해 사실 정보를 확인하고 출처를 명확히 인용해주세요. 답변 마지막에는 반드시 참고한
+    URL을 명시하세요. 신뢰할 수 있는 한국 뉴스 소스와 정부 웹사이트를 우선적으로 참조하세요.
+
+[2025-04-27 16:00:49,452][__main__][INFO] - 검색 키워드: 2023년 대전시 부동산 정책 개발계획 발표
+[2025-04-27 16:00:49,452][__main__][INFO] - 웹 검색 지원 모델 사용: gpt-4o-mini-search-preview
+[2025-04-27 16:00:49,453][__main__][INFO] - 생성 설정: 온도=0.1, 최대 토큰=16000, top_p=0.5
+[2025-04-27 16:00:49,453][__main__][INFO] - 프롬프트 준비 완료
+[2025-04-27 16:00:49,453][__main__][INFO] - 검색 컨텍스트 크기: high
+[2025-04-27 16:00:49,454][__main__][INFO] - 지역 기반 검색: 위치 'KR'에 맞는 결과를 검색합니다.
+[2025-04-27 16:00:49,454][__main__][INFO] - 인용 자동 포함 옵션 활성화됨: 검색 결과의 출처가 응답에 자동으로 포함됩니다.
+[2025-04-27 16:00:49,454][__main__][INFO] - OpenAI API 호출 중...
+[2025-04-27 16:00:49,455][__main__][INFO] - 웹 검색 지원 모델을 사용 중입니다.
+[2025-04-27 16:00:49,455][__main__][INFO] - 검색 모델은 일부 생성 파라미터를 지원하지 않습니다. 기본 파라미터만 전달합니다.
+[2025-04-27 16:01:02,412][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2025-04-27 16:01:02,417][__main__][INFO] - 응답 처리 중...
+[2025-04-27 16:01:02,417][__main__][INFO] - 
+--- 결과 미리보기 ---
+[2025-04-27 16:01:02,418][__main__][INFO] - ```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>한국 공공기관 보도자료</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=s...
+[2025-04-27 16:01:02,419][__main__][INFO] - 
+===== 웹 검색 결과 분석 (키워드: 2023년 대전시 부동산 정책 개발계획 발표) =====
+[2025-04-27 16:01:02,433][__main__][INFO] - [URL 1] https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+[2025-04-27 16:01:02,433][__main__][INFO] - [URL 2] https://www.donga.com/news/Politics/article/all/20231107/122065221/1">한국,
+
+[2025-04-27 16:01:02,434][__main__][INFO] - [URL 3] https://www.yna.co.kr/view/MYH20241205019300641">외교부
+
+[2025-04-27 16:01:02,434][__main__][INFO] - [URL 4] https://www.newsis.com/view/NISX20241209_0002990182">외교부,
+
+[2025-04-27 16:01:02,435][__main__][INFO] - [URL 5] https://www.pressian.com/pages/articles/2024122210514751291">"변함없이
+
+[2025-04-27 16:01:02,435][__main__][INFO] - [URL 6] https://knto.or.kr/pressRelease/547479">외래
+
+[2025-04-27 16:01:02,436][__main__][INFO] - 웹 검색 결과 분석 로그 파일 저장 완료: results\search_logs/search_2023년_대전시_부동산_정책_개발계획_발표_20250427_160102.log
+[2025-04-27 16:01:02,436][__main__][INFO] - =============================================
+
+[2025-04-27 16:01:02,438][__main__][INFO] - HTML 파일 저장 완료: results\press_release_2023년_대전시_부동산_정책_개발계획_발표_20250427_160102.html
+[2025-04-27 16:01:02,459][__main__][INFO] - 프롬프트 파일 저장 완료: results\press_release_2023년_대전시_부동산_정책_개발계획_발표_20250427_160102_prompt.txt
+[2025-04-27 16:01:02,462][__main__][INFO] - 설정 파일 저장 완료: results/press_release_2023년_대전시_부동산_정책_개발계획_발표_20250427_160102_config.yaml
+[2025-04-27 16:01:02,463][__main__][INFO] - 
+사용 가능한 설정 파라미터:
+[2025-04-27 16:01:02,463][__main__][INFO] - 모델 설정:
+[2025-04-27 16:01:02,463][__main__][INFO] -   model.name: 모델 이름 (웹 검색 지원 모델: gpt-4o-mini-search-preview, gpt-4o-search-preview)
+[2025-04-27 16:01:02,464][__main__][INFO] -   model.temperature: 생성 온도 (0-2, 낮을수록 일관성 높음)
+[2025-04-27 16:01:02,464][__main__][INFO] -   model.max_tokens: 최대 생성 토큰 수
+[2025-04-27 16:01:02,464][__main__][INFO] -   model.top_p: 확률 분포의 상위 p%에서만 토큰 선택 (0-1)
+[2025-04-27 16:01:02,464][__main__][INFO] - 
+참고: 웹 검색을 위해 모델이름에 'search'가 포함된 모델을 사용하세요.
+[2025-04-27 16:01:02,465][__main__][INFO] - 자세한 정보는 https://platform.openai.com/docs/guides/web-search 를 참조하세요.

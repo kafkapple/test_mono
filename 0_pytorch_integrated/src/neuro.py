@@ -1,0 +1,22 @@
+# 뇌과학 관련 텍스트 예시
+neuroscience_texts = [
+    "The hippocampus plays a crucial role in memory formation and spatial navigation.",
+    "Neurons communicate through synapses using neurotransmitters like dopamine and serotonin.",
+    "The prefrontal cortex is involved in executive functions and decision making.",
+    "EEG measures electrical activity in the brain through electrodes placed on the scalp.",
+    "fMRI uses blood oxygen level-dependent signals to measure brain activity.",
+    "Deep learning models can decode visual stimuli from neural signals.",
+    "Alzheimer's disease is characterized by amyloid plaques and neurofibrillary tangles.",
+    "The visual cortex processes information from the retina in a hierarchical manner.",
+    "While functional magnetic resonance imaging (fMRI) remains one of the most widespread and important methods in basic and clinical neuroscience.",
+    "Spike-Timing-Dependent Plasticity (STDP) principles were embedded into the agent’s policy network to enable synapse-like weight updates during online adaptation.",
+    "A transformer backbone augmented with a biologically plausible Working Memory buffer replicated dorsolateral prefrontal cortex dynamics in complex sequence reasoning tasks.",
+    "Incorporating grid-cell phase coding allowed the robot to achieve meter-level localization accuracy without external maps.",
+    "The model’s energy landscape mirrored attractor dynamics observed in hippocampal CA3, stabilizing recall under severe noise.",
+    "Self-supervised contrastive learning on calcium-imaging videos uncovered latent manifolds corresponding to motor cortex population codes.",
+    "A Mixture-of-Experts (MoE) policy gate was trained to switch between System I heuristics and System II deliberation, echoing dual-process theories of human cognition.",
+    "Graph Neural Networks operating on mesoscale connectome data predicted functional connectivity patterns with higher fidelity than traditional covariance models.",
+    "Meta-learning with synaptic consolidation priors emulated rapid task acquisition reminiscent of one-shot learning in the inferior temporal cortex.",
+    "State Space Models (SSM) parameterized by recurrent low-rank projections compressed long-range dependencies similarly to cortico-cerebellar loops.",
+    "Closed-loop neurofeedback revealed that the agent’s uncertainty estimates aligned with anterior cingulate cortex error monitoring signals during exploration.",
+]

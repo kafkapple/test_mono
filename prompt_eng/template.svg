@@ -1,0 +1,25 @@
+# template.svg (요약)
+<svg viewBox="0 0 800 1132" xmlns="http://www.w3.org/2000/svg">
+  <!-- ...공통 defs·symbol 생략... -->
+  <text x="400" y="120" class="title-text">{{ meta.date }}</text>
+  <!-- 요약 타이틀 -->
+  <rect x="100" y="350" width="600" height="50" class="title-box"/>
+  <text x="120" y="382" class="report-title">{{ summary.title }}</text>
+
+  <!-- bullets -->
+  {% for b in summary.bullets %}
+  <circle cx="110" cy="{{ 425+30*loop.index0 }}" r="4" class="bullet-point"/>
+  <text  x="120" y="{{ 430+30*loop.index0 }}" class="summary-text">{{ b }}</text>
+  {% endfor %}
+
+  <!-- 본문 -->
+  {% for p in body_pages %}
+  <g id="section{{ loop.index }}" transform="translate(100, {{ 600+400*(loop.index0) }})">
+      <text>{{ p }}</text>
+  </g>
+  {% endfor %}
+  <!-- 참고자료 -->
+  {% for r in references %}
+  <text x="100" y="{{ 900+25*loop.index0 }}" class="small-text">{{ loop.index }}. {{ r }}</text>
+  {% endfor %}
+</svg>

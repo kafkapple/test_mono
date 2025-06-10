@@ -1,0 +1,29 @@
+[2025-04-24 00:41:08,487][__main__][INFO] - 설정:
+keyword: 대전 부동산 주요 뉴스
+model:
+  name: gpt-4o
+  temperature: 0.1
+  max_tokens: 16000
+  top_p: 1.0
+  top_k: 20
+  frequency_penalty: 0.2
+  presence_penalty: 0.2
+  seed: 42
+output:
+  file: null
+  preview_length: 200
+web_search:
+  region: KR
+  recency_days: 7
+  language: ko
+  safe_search: true
+prompt:
+  file: prompt.yaml
+  system_message: 한글로 대답해주세요. 정보가 부족할 경우 웹 검색을 활용하세요. 한국에 관련된 최신 정보를 검색하세요.
+
+[2025-04-24 00:41:08,609][__main__][INFO] - 검색 키워드: 대전 부동산 주요 뉴스
+[2025-04-24 00:41:08,609][__main__][INFO] - 사용 모델: gpt-4o
+[2025-04-24 00:41:08,610][__main__][INFO] - 생성 설정: 온도=0.1, 최대 토큰=16000, top_p=1.0
+[2025-04-24 00:41:08,610][__main__][INFO] - 프롬프트 준비 완료
+[2025-04-24 00:41:08,611][__main__][INFO] - OpenAI API 호출 중...
+[2025-04-24 00:41:08,896][httpx][INFO] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 400 Bad Request"
